@@ -424,245 +424,133 @@
             signOutUser 
         } from './supabase.js';
         
-        // Dashboard elements
-        const welcomeMessage = document.querySelector('.dashboard-card h2');
-        const userInitial = document.querySelector('.rounded-full');
-        const userName = document.querySelector('.btn-outline span');
-        const streakDisplay = document.querySelector('.streak-flame').parentElement;
-        const todayGoalDisplay = document.querySelector('.bg-gray-800:nth-child(1) .text-2xl');
-        const progressBar = document.querySelector('.progress-fill');
-        const problemsSolvedDisplay = document.querySelector('.bg-gray-800:nth-child(2) .text-2xl');
-        
-        // Initialize dashboard with user data
-        async function initDashboard() {
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // Get current user
+                // Check authentication first
                 const user = await getCurrentUser();
                 if (!user) {
-                    // Redirect to login if not authenticated
                     window.location.href = 'login.html';
                     return;
                 }
-                
-                // Get dashboard data from the view
+
+                // Get user's dashboard data
                 const { data: dashboardData, error } = await supabase
                     .from('user_dashboard_data')
                     .select('*')
                     .eq('user_id', user.id)
                     .single();
-                
+
                 if (error) {
                     console.error('Error fetching dashboard data:', error);
-                    
-                    // Fallback to getting separate data
-                    const preferences = await getUserPreferences(user.id);
-                    if (!preferences) {
-                        // Redirect to onboarding if preferences not found
-                        window.location.href = 'onboarding.html';
-                        return;
-                    }
-                    
-                    // Get user progress
-                    const progressData = await getUserProgress(user.id);
-                    
-                    // Update UI with user data
-                    updateUserInfo(user);
-                    updatePreferences(preferences);
-                    updateProgressStats(progressData, preferences);
-                } else {
-                    // Update UI with dashboard data
-                    updateDashboardWithData(user, dashboardData);
+                    window.location.href = 'onboarding.html';
+                    return;
                 }
+
+                // Update UI with user's data
+                updateDashboardUI(user, dashboardData);
                 
-                // Get recommended problems
+                // Load recommended problems
                 await loadRecommendedProblems(user.id);
+                
+                // Setup sign out
+                setupSignOut();
+                
+                // Update current date
+                updateCurrentDate();
                 
             } catch (error) {
                 console.error('Error initializing dashboard:', error);
                 alert('Failed to load dashboard data. Please try again later.');
             }
-        }
-        
-        // Update dashboard with data from view
-        function updateDashboardWithData(user, dashboardData) {
+        });
+
+        // Update dashboard UI with user's data
+        function updateDashboardUI(user, data) {
             // Update user info
-            const firstName = user.user_metadata?.firstName || dashboardData.first_name || user.email?.split('@')[0] || 'User';
+            const firstName = user.user_metadata?.firstName || data.first_name || user.email?.split('@')[0] || 'User';
             
+            // Update welcome message
+            const welcomeMessage = document.querySelector('.dashboard-card h2');
             if (welcomeMessage) {
                 welcomeMessage.textContent = `Welcome back, ${firstName}!`;
             }
             
+            // Update user initial
+            const userInitial = document.querySelector('.rounded-full');
             if (userInitial && firstName) {
                 userInitial.textContent = firstName.charAt(0).toUpperCase();
             }
             
+            // Update username
+            const userName = document.querySelector('.btn-outline span');
             if (userName) {
                 userName.textContent = firstName;
             }
             
             // Update streak
+            const streakDisplay = document.querySelector('.streak-flame').parentElement;
             if (streakDisplay) {
-                streakDisplay.querySelector('span').textContent = `${dashboardData.current_streak || 0} day streak!`;
-            }
-            
-            // Set daily goal based on commitment preference
-            let dailyGoal = 1;
-            
-            if (dashboardData.commitment === '3') {
-                dailyGoal = 3;
-            } else if (dashboardData.commitment === '5') {
-                dailyGoal = 5;
+                streakDisplay.querySelector('span').textContent = `${data.current_streak || 0} day streak!`;
             }
             
             // Update today's goal
-            const problemsCompleted = dashboardData.solved_today || 0;
-            if (todayGoalDisplay) {
+            const todayGoalDisplay = document.querySelector('.bg-gray-800:nth-child(1) .text-2xl');
+            const progressBar = document.querySelector('.progress-fill');
+            if (todayGoalDisplay && progressBar) {
+                const dailyGoal = data.daily_goal || 1;
+                const problemsCompleted = data.solved_today || 0;
                 todayGoalDisplay.textContent = `${problemsCompleted} / ${dailyGoal}`;
-            }
-            
-            // Update progress bar
-            if (progressBar) {
-                const percentage = Math.min((problemsCompleted / dailyGoal) * 100, 100);
-                progressBar.style.width = `${percentage}%`;
+                progressBar.style.width = `${Math.min((problemsCompleted / dailyGoal) * 100, 100)}%`;
             }
             
             // Update total problems solved
+            const problemsSolvedDisplay = document.querySelector('.bg-gray-800:nth-child(2) .text-2xl');
             if (problemsSolvedDisplay) {
-                problemsSolvedDisplay.textContent = dashboardData.problems_solved.toString();
+                problemsSolvedDisplay.textContent = data.problems_solved.toString();
             }
             
             // Update mastery level
             const masteryDisplay = document.querySelector('.bg-gray-800:nth-child(3) .text-2xl');
             if (masteryDisplay) {
-                masteryDisplay.textContent = dashboardData.mastery_level;
+                masteryDisplay.textContent = data.mastery_level;
             }
         }
-        
+
         // Load recommended problems
         async function loadRecommendedProblems(userId) {
             try {
-                // Call the recommendation function
                 const { data, error } = await supabase.rpc('get_recommended_problems', { 
                     user_uuid: userId,
                     limit_count: 3
                 });
                 
-                if (error) {
-                    console.error('Error getting recommended problems:', error);
-                    return;
-                }
+                if (error) throw error;
                 
-                // If we got recommendations, update the UI
-                if (data && data.length > 0) {
-                    const suggestedProblemsContainer = document.querySelector('.dashboard-card:nth-child(2) .space-y-4');
-                    if (suggestedProblemsContainer) {
-                        // Clear existing suggestions
-                        suggestedProblemsContainer.innerHTML = '';
-                        
-                        // Add recommended problems
-                        data.forEach(problem => {
-                            const difficultyClass = problem.difficulty === 'easy' ? 'easy' : 
-                                                  problem.difficulty === 'hard' ? 'hard' : 'medium';
-                            
-                            const problemHtml = `
-                                <a href="problem.html?problem=${problem.slug}" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
-                                    <div class="flex justify-between items-start mb-2">
-                                        <h3 class="font-medium">${problem.title}</h3>
-                                        <span class="difficulty-tag ${difficultyClass}">${problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}</span>
-                                    </div>
-                                    <p class="text-gray-400 text-sm mb-3">${problem.description.length > 100 ? problem.description.substring(0, 100) + '...' : problem.description}</p>
-                                    <div class="flex items-center text-sm">
-                                        ${problem.topics.map(topic => `<span class="topic-tag mr-2">${topic}</span>`).join('')}
-                                        ${problem.pattern_name ? `<span class="topic-tag bg-yellow-900 text-yellow-200">Pattern: ${problem.pattern_name}</span>` : ''}
-                                        <div class="flex-grow"></div>
-                                        <div class="text-yellow-300 text-xs">CheatCode Available</div>
-                                    </div>
-                                </a>
-                            `;
-                            
-                            suggestedProblemsContainer.innerHTML += problemHtml;
-                        });
-                    }
-                }
+                const container = document.querySelector('.dashboard-card:nth-child(2) .space-y-4');
+                if (!container || !data?.length) return;
+                
+                container.innerHTML = data.map(problem => `
+                    <a href="problem.html?problem=${problem.slug}" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-medium">${problem.title}</h3>
+                            <span class="difficulty-tag ${problem.difficulty}">${problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-3">${problem.description.length > 100 ? problem.description.substring(0, 100) + '...' : problem.description}</p>
+                        <div class="flex items-center text-sm">
+                            ${problem.topics.map(topic => `<span class="topic-tag mr-2">${topic}</span>`).join('')}
+                            ${problem.pattern_name ? `<span class="topic-tag bg-yellow-900 text-yellow-200">Pattern: ${problem.pattern_name}</span>` : ''}
+                            <div class="flex-grow"></div>
+                            <div class="text-yellow-300 text-xs">CheatCode Available</div>
+                        </div>
+                    </a>
+                `).join('');
+                
             } catch (error) {
                 console.error('Error loading recommended problems:', error);
             }
         }
-        
-        // Update user info in the dashboard (fallback)
-        function updateUserInfo(user) {
-            // Set user name from metadata or email
-            const firstName = user.user_metadata?.firstName || user.email?.split('@')[0] || 'User';
-            
-            if (welcomeMessage) {
-                welcomeMessage.textContent = `Welcome back, ${firstName}!`;
-            }
-            
-            if (userInitial && firstName) {
-                userInitial.textContent = firstName.charAt(0).toUpperCase();
-            }
-            
-            if (userName) {
-                userName.textContent = firstName;
-            }
-        }
-        
-        // Update dashboard based on user preferences (fallback)
-        function updatePreferences(preferences) {
-            // Set daily goal based on commitment preference
-            let dailyGoal = 1;
-            
-            if (preferences.commitment === '3') {
-                dailyGoal = 3;
-            } else if (preferences.commitment === '5') {
-                dailyGoal = 5;
-            }
-            
-            // Update today's goal
-            const problemsCompleted = 0; // Default to 0, will need to calculate from actual progress
-            if (todayGoalDisplay) {
-                todayGoalDisplay.textContent = `${problemsCompleted} / ${dailyGoal}`;
-            }
-            
-            // Update progress bar
-            if (progressBar) {
-                const percentage = (problemsCompleted / dailyGoal) * 100;
-                progressBar.style.width = `${percentage}%`;
-            }
-        }
-        
-        // Update progress statistics (fallback)
-        function updateProgressStats(progressData, preferences) {
-            // Calculate streak (in a real app, we'd calculate this from activity data)
-            const streak = 0;
-            if (streakDisplay) {
-                streakDisplay.querySelector('span').textContent = `${streak} day streak!`;
-            }
-            
-            // Update total problems solved
-            const totalSolved = progressData?.length || 0;
-            if (problemsSolvedDisplay) {
-                problemsSolvedDisplay.textContent = totalSolved.toString();
-            }
-            
-            // Calculate mastery level based on total solved
-            let masteryLevel = 'Bronze';
-            if (totalSolved >= 30) {
-                masteryLevel = 'Silver';
-            }
-            if (totalSolved >= 60) {
-                masteryLevel = 'Gold';
-            }
-            if (totalSolved >= 100) {
-                masteryLevel = 'Platinum';
-            }
-            
-            const masteryDisplay = document.querySelector('.bg-gray-800:nth-child(3) .text-2xl');
-            if (masteryDisplay) {
-                masteryDisplay.textContent = masteryLevel;
-            }
-        }
-        
+
         // Update current date
         function updateCurrentDate() {
             const dateDisplay = document.querySelector('.text-gray-400 .text-yellow-300');
@@ -670,15 +558,14 @@
                 const now = new Date();
                 const options = { weekday: 'long' };
                 const dayName = new Intl.DateTimeFormat('en-US', options).format(now);
-                
                 const monthNames = ["January", "February", "March", "April", "May", "June",
-                  "July", "August", "September", "October", "November", "December"];
-                  
+                    "July", "August", "September", "October", "November", "December"];
+                
                 dateDisplay.textContent = dayName;
                 dateDisplay.nextElementSibling.textContent = `, ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
             }
         }
-        
+
         // Handle sign out
         function setupSignOut() {
             const profileButton = document.querySelector('.btn-outline');
@@ -696,13 +583,6 @@
                 });
             }
         }
-        
-        // Initialize dashboard on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateCurrentDate();
-            initDashboard();
-            setupSignOut();
-        });
     </script>
 </body>
 </html> 
