@@ -346,6 +346,21 @@ def twoSum(nums, target):
 
     <script src="main.js"></script>
     <script type="module">
+        import { getCurrentUser } from './supabase.js';
+        
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Continue loading problem data if authenticated
+            loadProblemData();
+        });
+        
         // Initialize problem page
         async function initProblemPage() {
             try {
@@ -705,9 +720,6 @@ def twoSum(nums, target):
                 document.getElementById(`${tabId}-tab`).classList.remove('hidden');
             });
         });
-
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', initProblemPage);
     </script>
 </body>
 </html> 

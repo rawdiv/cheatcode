@@ -17,8 +17,19 @@
                 <ul class="flex space-x-6">
                     <li><a href="problem.html" class="hover:text-yellow-300 transition-colors">Problems</a></li>
                     <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
-                    <li><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
-                    <li><a href="login.html" class="btn-outline py-2">Login</a></li>
+                    <li id="dashboard-nav-item" class="hidden"><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                    <li id="auth-buttons">
+                        <button class="btn-outline py-1 px-4" id="login-btn">Login</button>
+                        <button class="btn-primary py-1 px-4 ml-2" id="signup-btn">Sign Up</button>
+                    </li>
+                    <li id="user-profile" class="hidden">
+                        <div class="relative">
+                            <button class="btn-outline py-1 px-4 flex items-center">
+                                <div class="w-6 h-6 rounded-full bg-yellow-300 text-gray-900 flex items-center justify-center mr-2 font-medium text-sm">U</div>
+                                <span>User</span>
+                            </button>
+                        </div>
+                    </li>
                 </ul>
             </nav>
             <button class="md:hidden" id="mobile-menu-btn">
@@ -355,6 +366,76 @@
     </footer>
 
     <script src="main.js"></script>
+    <script type="module">
+        import { getCurrentUser, signOutUser } from './supabase.js';
+        
+        // Check authentication status and update UI
+        async function updateAuthUI() {
+            const user = await getCurrentUser();
+            const dashboardNav = document.getElementById('dashboard-nav-item');
+            const authButtons = document.getElementById('auth-buttons');
+            const userProfile = document.getElementById('user-profile');
+            const userInitial = userProfile?.querySelector('.rounded-full');
+            const userName = userProfile?.querySelector('span');
+            
+            if (user) {
+                // User is logged in
+                dashboardNav?.classList.remove('hidden');
+                authButtons?.classList.add('hidden');
+                userProfile?.classList.remove('hidden');
+                
+                // Update user info
+                const firstName = user.user_metadata?.firstName || user.email?.split('@')[0] || 'User';
+                if (userInitial) userInitial.textContent = firstName.charAt(0).toUpperCase();
+                if (userName) userName.textContent = firstName;
+                
+                // Setup sign out
+                const profileButton = userProfile?.querySelector('button');
+                if (profileButton) {
+                    profileButton.addEventListener('click', async () => {
+                        if (confirm('Are you sure you want to sign out?')) {
+                            try {
+                                await signOutUser();
+                                window.location.reload();
+                            } catch (error) {
+                                console.error('Error signing out:', error);
+                                alert('Failed to sign out. Please try again.');
+                            }
+                        }
+                    });
+                }
+            } else {
+                // User is not logged in
+                dashboardNav?.classList.add('hidden');
+                authButtons?.classList.remove('hidden');
+                userProfile?.classList.add('hidden');
+            }
+        }
+        
+        // Setup login/signup buttons
+        function setupAuthButtons() {
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    window.location.href = 'login.html';
+                });
+            }
+            
+            if (signupBtn) {
+                signupBtn.addEventListener('click', () => {
+                    window.location.href = 'signup.html';
+                });
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+            setupAuthButtons();
+        });
+    </script>
     <script>
         // Animate elements when they come into view
         document.addEventListener('DOMContentLoaded', function() {
