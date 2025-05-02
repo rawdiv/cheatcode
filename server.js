@@ -5,6 +5,8 @@ const { createClient } = require('@supabase/supabase-js');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const path = require('path');
+const helmet = require('helmet');
+const compression = require('compression');
 
 // Initialize Express app
 const app = express();
@@ -990,8 +992,36 @@ app.get('/api/problems/:problemId', async (req, res) => {
   }
 });
 
-// Start the server
+// Production configuration
+if (process.env.NODE_ENV === 'production') {
+  // Trust proxy
+  app.set('trust proxy', 1);
+  
+  // Enable security headers
+  app.use(helmet());
+  
+  // Enable compression
+  app.use(compression());
+  
+  // Serve static files
+  app.use(express.static('public', {
+    maxAge: '1d',
+    etag: true
+  }));
+}
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    error: process.env.NODE_ENV === 'production' 
+      ? 'Internal server error' 
+      : err.message
+  });
+});
+
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Visit http://localhost:${PORT} to access the application`);
+  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
 }); 
