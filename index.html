@@ -42,8 +42,16 @@
             <ul class="flex flex-col space-y-4 p-4">
                 <li><a href="problem.html" class="block hover:text-yellow-300 transition-colors">Problems</a></li>
                 <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
-                <li><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
-                <li><a href="login.html" class="btn-outline inline-block">Login</a></li>
+                <li id="mobile-dashboard-nav" class="hidden"><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                <li id="mobile-auth-buttons">
+                    <a href="login.html" class="btn-outline inline-block">Login</a>
+                </li>
+                <li id="mobile-user-profile" class="hidden">
+                    <button class="btn-outline py-1 px-4 flex items-center">
+                        <div class="w-6 h-6 rounded-full bg-yellow-300 text-gray-900 flex items-center justify-center mr-2 font-medium text-sm">U</div>
+                        <span>User</span>
+                    </button>
+                </li>
             </ul>
         </div>
     </header>
@@ -373,42 +381,57 @@
         async function updateAuthUI() {
             const user = await getCurrentUser();
             const dashboardNav = document.getElementById('dashboard-nav-item');
+            const mobileDashboardNav = document.getElementById('mobile-dashboard-nav');
             const authButtons = document.getElementById('auth-buttons');
+            const mobileAuthButtons = document.getElementById('mobile-auth-buttons');
             const userProfile = document.getElementById('user-profile');
+            const mobileUserProfile = document.getElementById('mobile-user-profile');
             const userInitial = userProfile?.querySelector('.rounded-full');
+            const mobileUserInitial = mobileUserProfile?.querySelector('.rounded-full');
             const userName = userProfile?.querySelector('span');
+            const mobileUserName = mobileUserProfile?.querySelector('span');
             
             if (user) {
                 // User is logged in
                 dashboardNav?.classList.remove('hidden');
+                mobileDashboardNav?.classList.remove('hidden');
                 authButtons?.classList.add('hidden');
+                mobileAuthButtons?.classList.add('hidden');
                 userProfile?.classList.remove('hidden');
+                mobileUserProfile?.classList.remove('hidden');
                 
                 // Update user info
                 const firstName = user.user_metadata?.firstName || user.email?.split('@')[0] || 'User';
                 if (userInitial) userInitial.textContent = firstName.charAt(0).toUpperCase();
+                if (mobileUserInitial) mobileUserInitial.textContent = firstName.charAt(0).toUpperCase();
                 if (userName) userName.textContent = firstName;
+                if (mobileUserName) mobileUserName.textContent = firstName;
                 
-                // Setup sign out
-                const profileButton = userProfile?.querySelector('button');
-                if (profileButton) {
-                    profileButton.addEventListener('click', async () => {
-                        if (confirm('Are you sure you want to sign out?')) {
-                            try {
-                                await signOutUser();
-                                window.location.reload();
-                            } catch (error) {
-                                console.error('Error signing out:', error);
-                                alert('Failed to sign out. Please try again.');
+                // Setup sign out for both desktop and mobile
+                const profileButtons = [userProfile?.querySelector('button'), mobileUserProfile?.querySelector('button')];
+                profileButtons.forEach(button => {
+                    if (button) {
+                        button.addEventListener('click', async () => {
+                            if (confirm('Are you sure you want to sign out?')) {
+                                try {
+                                    await signOutUser();
+                                    window.location.reload();
+                                } catch (error) {
+                                    console.error('Error signing out:', error);
+                                    alert('Failed to sign out. Please try again.');
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                });
             } else {
                 // User is not logged in
                 dashboardNav?.classList.add('hidden');
+                mobileDashboardNav?.classList.add('hidden');
                 authButtons?.classList.remove('hidden');
+                mobileAuthButtons?.classList.remove('hidden');
                 userProfile?.classList.add('hidden');
+                mobileUserProfile?.classList.add('hidden');
             }
         }
         
