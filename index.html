@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CheatCode - Crack Any Coding Interview</title>
+    <title>CheatCode - Practice. Solve. Master </title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,129 +40,316 @@
     <div class="container mx-auto px-4 py-12">
         <!-- Hero Section -->
         <section class="text-center my-20">
-            <h1 class="text-6xl font-bold mb-16 animate-fadeIn">
-                Crack Any Coding<br>Interview with<br><span class="text-yellow-300">CheatCode</span>
-            </h1>
-            
-            <div class="flex justify-center gap-4 mb-20 animate-slideUp delay-300">
-                <button class="btn-primary animate-pulse" id="demo-btn">Try a Demo Problem</button>
-                <button class="btn-outline" id="register-btn">Register Now</button>
+            <div class="hero-content">
+                <div class="typewriter-container">
+                    <h1 class="text-6xl font-bold mb-16 typewriter">
+                        Practice Solve  Master
+                    </h1>
+                </div>
+                <p class="text-xl text-gray-400 mb-12 max-w-3xl mx-auto animate-fadeIn delay-100 mobile-text">
+                    <i class="fas fa-rocket text-yellow-300 mr-2"></i>
+                    CheatCode offers hand-curated coding challenges and real-time mentorship to help you become interview-ready — no cheating, no fluff.
+                </p>
+                <div class="flex justify-center gap-4 mb-20 animate-slideUp delay-300 mobile-buttons">
+                    <button class="btn-primary animate-pulse" id="start-solving-btn">
+                        <i class="fas fa-play mr-2"></i>Start Solving Now
+                    </button>
+                    <button class="btn-outline" id="browse-btn">
+                        <i class="fas fa-list mr-2"></i>Browse Challenges
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is CheatCode Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-8">What is CheatCode?</h2>
+            <p class="text-lg text-gray-400 max-w-4xl mx-auto">
+                CheatCode is a coding platform focused on improving your actual problem-solving skills through curated problems, instant feedback, and guided solutions. Whether you're preparing for coding interviews, upskilling, or practicing DSA, CheatCode helps you learn the right way — without relying on shortcuts.
+            </p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">
+                <i class="fas fa-star mr-3"></i>Features
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-tasks text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Manually Curated Problems</h3>
+                    <p class="text-gray-400">Sorted by topic and difficulty</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-code text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Built-in Code Editor</h3>
+                    <p class="text-gray-400">No need for third-party tools</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-chart-line text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Track Your Progress</h3>
+                    <p class="text-gray-400">Visualize what you've mastered</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-vial text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Custom Test Cases</h3>
+                    <p class="text-gray-400">Add your own to validate logic</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-book-open text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Detailed Solutions</h3>
+                    <p class="text-gray-400">Learn the approach, not just the answer</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-filter text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Topic & Difficulty Filters</h3>
+                    <p class="text-gray-400">Easily pick what you want to practice</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-redo text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Repeat Attempts</h3>
+                    <p class="text-gray-400">Retry and improve previous problems</p>
+                </div>
+                <div class="feature-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-user-graduate text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">No AI-generated Solutions</h3>
+                    <p class="text-gray-400">100% real learning</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trusted by Recruiters Section -->
+        <section class="my-24 bg-gray-900 rounded-lg p-12">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-8">Trusted by Recruiters</h2>
+            <p class="text-lg text-gray-400 mb-8">
+                CheatCode is undetectable by cheat-detection tools. Built with mentorship and skill-building at its core, the platform is trusted by recruiters and hiring managers to represent real, human-driven talent.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="trust-card">
+                    <h3 class="text-xl font-bold mb-2">No Copy-Paste Templates</h3>
+                </div>
+                <div class="trust-card">
+                    <h3 class="text-xl font-bold mb-2">Real Interview Questions</h3>
+                </div>
+                <div class="trust-card">
+                    <h3 class="text-xl font-bold mb-2">No Cheat Detection Triggers</h3>
+                </div>
+                <div class="trust-card">
+                    <h3 class="text-xl font-bold mb-2">Real Assessment Practice</h3>
+                </div>
             </div>
         </section>
 
         <!-- How It Works Section -->
         <section class="my-24">
-            <h2 class="text-4xl font-bold text-yellow-300 mb-16">How It Works</h2>
-            
-            <div class="flex flex-wrap justify-center gap-16 feature-cards-container">
-                <!-- Feature 1 -->
-                <div class="feature-card animate-fadeIn delay-100">
-                    <div class="icon text-yellow-300 mb-6 animate-float">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 1L21 5V11C21 16.55 17.16 21.74 12 23C6.84 21.74 3 16.55 3 11V5L12 1M12 3.18L5 6.3V11.22C5 15.54 8.25 19.69 12 20.82C15.75 19.69 19 15.54 19 11.22V6.3L12 3.18M12 6.5C13.76 6.5 15.5 7.24 16.5 8.74V11.92H15V8.74C14.37 7.72 13.22 7 12 7C10.03 7 8.5 8.53 8.5 10.5V12H7V10.5C7 7.97 9.24 6.5 12 6.5M15.89 16.3L14.5 17.7L12 15.2L9.5 17.7L8.11 16.3L10.61 13.8L8.11 11.3L9.5 9.91L12 12.41L14.5 9.91L15.89 11.3L13.39 13.8L15.89 16.3Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Problem Solving</h3>
-                    <p class="text-gray-400">Tackle a variety of coding challenges</p>
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">
+                <i class="fas fa-cogs mr-3"></i>How It Works
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div class="step-card hover:transform hover:scale-105 transition-transform">
+                    <div class="step-number">1</div>
+                    <i class="fas fa-user-plus text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Create a Free Account</h3>
+                    <p class="text-gray-400">Sign up with email or GitHub</p>
                 </div>
-                
-                <!-- Feature 2 -->
-                <div class="feature-card animate-fadeIn delay-200">
-                    <div class="icon text-yellow-300 mb-6 animate-float">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Code Execution</h3>
-                    <p class="text-gray-400">Write and test your code in our editor</p>
+                <div class="step-card hover:transform hover:scale-105 transition-transform">
+                    <div class="step-number">2</div>
+                    <i class="fas fa-tasks text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Choose a Challenge</h3>
+                    <p class="text-gray-400">Filter by topic or level</p>
                 </div>
-                
-                <!-- Feature 3 -->
-                <div class="feature-card animate-fadeIn delay-300">
-                    <div class="icon text-yellow-300 mb-6 animate-float">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M9,19H7V13H9V19M13,19H11V9H13V19M17,19H15V5H17V19Z" />
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold mb-2">Progress Tracking</h3>
-                    <p class="text-gray-400">Monitor your coding journey over time</p>
+                <div class="step-card hover:transform hover:scale-105 transition-transform">
+                    <div class="step-number">3</div>
+                    <i class="fas fa-code text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Write & Submit Code</h3>
+                    <p class="text-gray-400">Get instant feedback</p>
+                </div>
+                <div class="step-card hover:transform hover:scale-105 transition-transform">
+                    <div class="step-number">4</div>
+                    <i class="fas fa-lightbulb text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">View Solution</h3>
+                    <p class="text-gray-400">Learn the optimal approach</p>
+                </div>
+                <div class="step-card hover:transform hover:scale-105 transition-transform">
+                    <div class="step-number">5</div>
+                    <i class="fas fa-trophy text-3xl text-yellow-300 mb-4"></i>
+                    <h3 class="text-xl font-bold mb-2">Level Up</h3>
+                    <p class="text-gray-400">Repeat and master each topic</p>
                 </div>
             </div>
         </section>
 
-        <!-- Featured Problems Section -->
+        <!-- Topics Section -->
         <section class="my-24">
-            <h2 class="text-4xl font-bold text-yellow-300 mb-16">Featured Problems</h2>
-            
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">
+                <i class="fas fa-book mr-3"></i>Topics Covered
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-layer-group mr-2"></i>Arrays
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-font mr-2"></i>Strings
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-link mr-2"></i>Linked Lists
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-project-diagram mr-2"></i>Trees & Graphs
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-stream mr-2"></i>Stacks & Queues
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-cogs mr-2"></i>Dynamic Programming
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-sync mr-2"></i>Recursion
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-gem mr-2"></i>Greedy
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-window-maximize mr-2"></i>Sliding Window
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-undo mr-2"></i>Backtracking
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-key mr-2"></i>Hashing
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-hand-point-up mr-2"></i>Two Pointers
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-binary mr-2"></i>Bit Manipulation
+                </div>
+                <div class="topic-card hover:transform hover:scale-105 transition-transform">
+                    <i class="fas fa-calculator mr-2"></i>Math & Logic
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Tiers Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">Subscription Tiers</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <!-- Problem 1 -->
-                <div class="problem-card animate-fadeIn delay-100" data-problem="two-sum">
-                    <h3 class="text-2xl font-bold text-center">Two Sum</h3>
+                <!-- Free Tier -->
+                <div class="subscription-card">
+                    <h3 class="text-2xl font-bold mb-4">CheatCode Free</h3>
+                    <p class="text-3xl font-bold mb-6">₹0<span class="text-lg text-gray-400">/month</span></p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Access 100+ curated problems
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Use the built-in code editor
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Submit and get real-time feedback
+                        </li>
+                    </ul>
+                    <button class="btn-outline w-full">Start Free</button>
                 </div>
-                
-                <!-- Problem 2 -->
-                <div class="problem-card animate-fadeIn delay-200" data-problem="palindrome-number">
-                    <h3 class="text-2xl font-bold text-center">Palindrome Number</h3>
-                </div>
-                
-                <!-- Problem 3 -->
-                <div class="problem-card animate-fadeIn delay-300" data-problem="valid-parentheses">
-                    <h3 class="text-2xl font-bold text-center">Valid Parentheses</h3>
-                </div>
-                
-                <!-- Problem 4 -->
-                <div class="problem-card animate-fadeIn delay-400" data-problem="merge-sorted-lists">
-                    <h3 class="text-2xl font-bold text-center">Merge Two Sorted Lists</h3>
+                <!-- Pro Tier -->
+                <div class="subscription-card pro">
+                    <h3 class="text-2xl font-bold mb-4">CheatCode Pro</h3>
+                    <p class="text-3xl font-bold mb-6">₹99<span class="text-lg text-gray-400">/month</span></p>
+                    <ul class="space-y-4 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Full solution access
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            1-on-1 solution walkthrough
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-300 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            Weekly mentorship sessions
+                        </li>
+                    </ul>
+                    <button class="btn-primary w-full">Upgrade to Pro</button>
                 </div>
             </div>
         </section>
 
-        <!-- Cheatsheet Preview Section -->
+        <!-- Testimonials Section -->
         <section class="my-24">
-            <h2 class="text-4xl font-bold text-yellow-300 mb-16">Cheatsheet Preview</h2>
-            
-            <div class="code-block max-w-2xl mx-auto animate-slideUp">
-                <pre><span class="line-number">1</span><span class="py-keyword">def</span> <span class="py-function">reverse_string</span>(s:):
-<span class="line-number">2</span>    <span class="py-keyword">return</span> s[::-1]</pre>
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">What Our Users Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="testimonial-card">
+                    <p class="text-lg mb-4">"CheatCode has a no-nonsense approach to learning — just code, solve, and improve."</p>
+                    <p class="font-bold">— Neha, Placement Candidate</p>
+                </div>
+                <div class="testimonial-card">
+                    <p class="text-lg mb-4">"One-on-one mentorship really helped me crack my dream job."</p>
+                    <p class="font-bold">— Ravi, Frontend Developer</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section class="my-24 text-center">
+            <h2 class="text-4xl font-bold mb-8">Stop scrolling. Start solving.</h2>
+            <p class="text-xl text-gray-400 mb-12">Join hundreds of learners building their coding muscle — one challenge at a time.</p>
+            <div class="flex justify-center gap-4">
+                <button class="btn-primary">Join Now — It's Free</button>
+                <button class="btn-outline">Upgrade to Pro</button>
             </div>
         </section>
     </div>
 
-    <footer class="bg-gray-900 py-12 animate-fadeIn">
+    <footer class="bg-gray-900 py-12">
         <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between">
-                <div class="mb-8 md:mb-0">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
                     <h3 class="text-xl font-bold text-yellow-300 mb-4">CheatCode</h3>
-                    <p class="text-gray-400 max-w-md">Accelerate your coding interview preparation with patterns, templates, and cheatcodes.</p>
+                    <p class="text-gray-400">Accelerate your coding interview preparation with patterns, templates, and cheatcodes.</p>
                 </div>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
-                    <div>
-                        <h4 class="text-white font-bold mb-4">Platform</h4>
-                        <ul class="space-y-2">
-                            <li><a href="problem.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Problems</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
-                            <li><a href="dashboard.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Dashboard</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-4">Company</h4>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">About</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Contact</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Blog</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="text-white font-bold mb-4">Legal</h4>
-                        <ul class="space-y-2">
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Terms</a></li>
-                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Privacy</a></li>
-                        </ul>
-                    </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Platform</h4>
+                    <ul class="space-y-2">
+                        <li><a href="problem.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Problems</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                        <li><a href="dashboard.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Terms</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Privacy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">FAQ</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
-                &copy; 2023 CheatCode. All rights reserved.
+                <p>© 2025 CheatCode. All rights reserved.</p>
+                <p class="mt-2">support@cheatcode.dev</p>
             </div>
         </div>
     </footer>
@@ -170,7 +358,6 @@
     <script>
         // Animate elements when they come into view
         document.addEventListener('DOMContentLoaded', function() {
-            // This function will check if an element is in the viewport
             function isInViewport(element) {
                 const rect = element.getBoundingClientRect();
                 return (
@@ -181,10 +368,8 @@
                 );
             }
             
-            // Function to handle scroll events and animate elements
             function handleScroll() {
                 const sections = document.querySelectorAll('section');
-                
                 sections.forEach(section => {
                     if (isInViewport(section) && !section.classList.contains('has-animated')) {
                         section.classList.add('has-animated');
@@ -193,10 +378,7 @@
                 });
             }
             
-            // Add scroll event listener
             window.addEventListener('scroll', handleScroll);
-            
-            // Trigger once on page load
             handleScroll();
         });
     </script>
