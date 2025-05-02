@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CheatCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-card {
+            background-color: #1F2937;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #374151;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #FFD43B;
+        }
+        
+        .streak-flame {
+            color: #F59E0B;
+        }
+        
+        .difficulty-tag {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+        }
+        
+        .difficulty-tag.easy {
+            background-color: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+        }
+        
+        .difficulty-tag.medium {
+            background-color: rgba(245, 158, 11, 0.2);
+            color: #F59E0B;
+        }
+        
+        .difficulty-tag.hard {
+            background-color: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+        
+        .topic-tag {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 9999px;
+            font-weight: 500;
+            background-color: rgba(75, 85, 99, 0.3);
+            color: #D1D5DB;
+        }
+    </style>
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="problem.html" class="hover:text-yellow-300 transition-colors">Problems</a></li>
+                    <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                    <li><a href="dashboard.html" class="text-yellow-300 transition-colors font-medium">Dashboard</a></li>
+                    <li>
+                        <div class="relative">
+                            <button class="btn-outline py-1 px-4 flex items-center">
+                                <div class="w-6 h-6 rounded-full bg-yellow-300 text-gray-900 flex items-center justify-center mr-2 font-medium text-sm">D</div>
+                                <span>Divyansh</span>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </nav>
+            <button class="md:hidden" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <ul class="flex flex-col space-y-4 p-4">
+                <li><a href="problem.html" class="block hover:text-yellow-300 transition-colors">Problems</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                <li><a href="dashboard.html" class="block text-yellow-300 transition-colors font-medium">Dashboard</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Profile</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-2xl font-bold">Dashboard</h1>
+            <div class="text-gray-400">
+                <span class="text-yellow-300 font-medium">Thursday</span>, June 15, 2023
+            </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Left Column -->
+            <div class="md:col-span-2 space-y-6">
+                <!-- Welcome Section -->
+                <div class="dashboard-card p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-bold">Welcome back, Divyansh!</h2>
+                        <div class="flex items-center text-yellow-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1 streak-flame" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z" clip-rule="evenodd" />
+                            </svg>
+                            <span>5 day streak!</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-gray-400 mb-6">You're making great progress! Keep up the momentum to reach your goals.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <div class="text-gray-400 text-sm mb-2">Today's Goal</div>
+                            <div class="flex items-center justify-between mb-1">
+                                <div class="text-2xl font-bold">1 / 3</div>
+                                <div class="text-gray-400 text-xs">problems</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 33%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <div class="text-gray-400 text-sm mb-2">Problems Solved</div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-2xl font-bold">32</div>
+                                <div class="text-gray-400 text-xs">total</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-800 p-4 rounded-lg">
+                            <div class="text-gray-400 text-sm mb-2">Mastery Level</div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-2xl font-bold">Silver</div>
+                                <div class="text-gray-400 text-xs">
+                                    <span class="text-yellow-300">↗</span> improving
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Suggested Problems -->
+                <div class="dashboard-card p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-bold">Suggested Problems</h2>
+                        <a href="problem.html" class="text-sm text-yellow-300 hover:underline">View all</a>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <a href="problem.html?problem=valid-parentheses" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium">Valid Parentheses</h3>
+                                <span class="difficulty-tag easy">Easy</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-3">Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.</p>
+                            <div class="flex items-center text-sm">
+                                <span class="topic-tag mr-2">Stack</span>
+                                <span class="topic-tag">String</span>
+                                <div class="flex-grow"></div>
+                                <div class="text-yellow-300 text-xs">CheatCode Available</div>
+                            </div>
+                        </a>
+                        
+                        <a href="problem.html?problem=maximum-subarray" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium">Maximum Subarray</h3>
+                                <span class="difficulty-tag medium">Medium</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-3">Given an integer array nums, find the contiguous subarray which has the largest sum and return its sum.</p>
+                            <div class="flex items-center text-sm">
+                                <span class="topic-tag mr-2">Array</span>
+                                <span class="topic-tag mr-2">DP</span>
+                                <span class="topic-tag">Divide & Conquer</span>
+                                <div class="flex-grow"></div>
+                                <div class="text-yellow-300 text-xs">CheatCode Available</div>
+                            </div>
+                        </a>
+                        
+                        <a href="problem.html?problem=merge-sorted-lists" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="font-medium">Merge Two Sorted Lists</h3>
+                                <span class="difficulty-tag easy">Easy</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-3">Merge two sorted linked lists and return it as a sorted list.</p>
+                            <div class="flex items-center text-sm">
+                                <span class="topic-tag mr-2">Linked List</span>
+                                <span class="topic-tag">Recursion</span>
+                                <div class="flex-grow"></div>
+                                <div class="text-yellow-300 text-xs">CheatCode Available</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="mt-6 text-center">
+                        <a href="problem.html" class="btn-primary inline-block py-2 px-4">Find More Problems</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="space-y-6">
+                <!-- Continue Solving Section -->
+                <div class="dashboard-card p-6">
+                    <h2 class="text-lg font-bold mb-4">Continue Solving</h2>
+                    <div class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="font-medium">Two Sum</h3>
+                            <span class="difficulty-tag easy">Easy</span>
+                        </div>
+                        <div class="text-gray-400 text-sm">
+                            Last worked on: 2 hours ago
+                        </div>
+                        <div class="mt-4">
+                            <a href="problem.html?problem=two-sum" class="w-full btn-primary py-2 block text-center">Resume</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="dashboard-card p-6">
+                    <h2 class="text-lg font-bold mb-4">Recent Activity</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-green-800 flex items-center justify-center text-green-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-medium">Solved: Valid Palindrome</div>
+                                        <div class="text-gray-400 text-sm">Completed in 9 minutes</div>
+                                    </div>
+                                    <div class="text-gray-400 text-xs">1 hour ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-yellow-800 flex items-center justify-center text-yellow-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-medium">Started: Two Sum</div>
+                                        <div class="text-gray-400 text-sm">In progress</div>
+                                    </div>
+                                    <div class="text-gray-400 text-xs">2 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-3">
+                            <div class="mt-1 w-8 h-8 rounded-full bg-blue-800 flex items-center justify-center text-blue-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="flex-grow">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <div class="font-medium">Unlocked: Hash Table CheatCode</div>
+                                        <div class="text-gray-400 text-sm">Used 5 credits</div>
+                                    </div>
+                                    <div class="text-gray-400 text-xs">Yesterday</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <a href="#" class="text-sm text-yellow-300 hover:underline">View all activity</a>
+                    </div>
+                </div>
+                
+                <!-- Topic Progress -->
+                <div class="dashboard-card p-6">
+                    <h2 class="text-lg font-bold mb-4">Topic Progress</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <div class="text-sm">Arrays</div>
+                                <div class="text-sm text-gray-400">8/12</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 66%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <div class="text-sm">Strings</div>
+                                <div class="text-sm text-gray-400">6/10</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 60%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <div class="text-sm">Linked Lists</div>
+                                <div class="text-sm text-gray-400">3/8</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 38%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <div class="text-sm">Hash Tables</div>
+                                <div class="text-sm text-gray-400">2/7</div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 28%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 text-center">
+                        <a href="#" class="text-sm text-yellow-300 hover:underline">View detailed progress</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recommended CheatCodes Section -->
+        <div class="mt-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold">Recommended CheatCodes</h2>
+                <a href="#" class="text-sm text-yellow-300 hover:underline">View all CheatCodes</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="dashboard-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-900 flex items-center justify-center text-blue-200 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Sliding Window</h3>
+                            <div class="text-gray-400 text-sm">Pattern</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Master the sliding window technique for tackling string and array problems with O(n) time complexity.</p>
+                    <button class="w-full btn-outline py-2">Unlock (5 credits)</button>
+                </div>
+                
+                <div class="dashboard-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-900 flex items-center justify-center text-purple-200 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Dynamic Programming</h3>
+                            <div class="text-gray-400 text-sm">Framework</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">A systematic approach to DP problems with memoization and tabulation templates.</p>
+                    <button class="w-full btn-outline py-2">Unlock (8 credits)</button>
+                </div>
+                
+                <div class="dashboard-card p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-green-900 flex items-center justify-center text-green-200 mr-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold">Tree Traversal</h3>
+                            <div class="text-gray-400 text-sm">Templates</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">Ready-to-use templates for all common tree traversal methods: DFS, BFS, level order, etc.</p>
+                    <button class="w-full btn-outline py-2">Unlock (5 credits)</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="module">
+        // Import Supabase client and functions
+        import { 
+            supabase,
+            getCurrentUser, 
+            getUserPreferences, 
+            getUserProgress,
+            signOutUser 
+        } from './supabase.js';
+        
+        // Dashboard elements
+        const welcomeMessage = document.querySelector('.dashboard-card h2');
+        const userInitial = document.querySelector('.rounded-full');
+        const userName = document.querySelector('.btn-outline span');
+        const streakDisplay = document.querySelector('.streak-flame').parentElement;
+        const todayGoalDisplay = document.querySelector('.bg-gray-800:nth-child(1) .text-2xl');
+        const progressBar = document.querySelector('.progress-fill');
+        const problemsSolvedDisplay = document.querySelector('.bg-gray-800:nth-child(2) .text-2xl');
+        
+        // Initialize dashboard with user data
+        async function initDashboard() {
+            try {
+                // Get current user
+                const user = await getCurrentUser();
+                if (!user) {
+                    // Redirect to login if not authenticated
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Get dashboard data from the view
+                const { data: dashboardData, error } = await supabase
+                    .from('user_dashboard_data')
+                    .select('*')
+                    .eq('user_id', user.id)
+                    .single();
+                
+                if (error) {
+                    console.error('Error fetching dashboard data:', error);
+                    
+                    // Fallback to getting separate data
+                    const preferences = await getUserPreferences(user.id);
+                    if (!preferences) {
+                        // Redirect to onboarding if preferences not found
+                        window.location.href = 'onboarding.html';
+                        return;
+                    }
+                    
+                    // Get user progress
+                    const progressData = await getUserProgress(user.id);
+                    
+                    // Update UI with user data
+                    updateUserInfo(user);
+                    updatePreferences(preferences);
+                    updateProgressStats(progressData, preferences);
+                } else {
+                    // Update UI with dashboard data
+                    updateDashboardWithData(user, dashboardData);
+                }
+                
+                // Get recommended problems
+                await loadRecommendedProblems(user.id);
+                
+            } catch (error) {
+                console.error('Error initializing dashboard:', error);
+                alert('Failed to load dashboard data. Please try again later.');
+            }
+        }
+        
+        // Update dashboard with data from view
+        function updateDashboardWithData(user, dashboardData) {
+            // Update user info
+            const firstName = user.user_metadata?.firstName || dashboardData.first_name || user.email?.split('@')[0] || 'User';
+            
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Welcome back, ${firstName}!`;
+            }
+            
+            if (userInitial && firstName) {
+                userInitial.textContent = firstName.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = firstName;
+            }
+            
+            // Update streak
+            if (streakDisplay) {
+                streakDisplay.querySelector('span').textContent = `${dashboardData.current_streak || 0} day streak!`;
+            }
+            
+            // Set daily goal based on commitment preference
+            let dailyGoal = 1;
+            
+            if (dashboardData.commitment === '3') {
+                dailyGoal = 3;
+            } else if (dashboardData.commitment === '5') {
+                dailyGoal = 5;
+            }
+            
+            // Update today's goal
+            const problemsCompleted = dashboardData.solved_today || 0;
+            if (todayGoalDisplay) {
+                todayGoalDisplay.textContent = `${problemsCompleted} / ${dailyGoal}`;
+            }
+            
+            // Update progress bar
+            if (progressBar) {
+                const percentage = Math.min((problemsCompleted / dailyGoal) * 100, 100);
+                progressBar.style.width = `${percentage}%`;
+            }
+            
+            // Update total problems solved
+            if (problemsSolvedDisplay) {
+                problemsSolvedDisplay.textContent = dashboardData.problems_solved.toString();
+            }
+            
+            // Update mastery level
+            const masteryDisplay = document.querySelector('.bg-gray-800:nth-child(3) .text-2xl');
+            if (masteryDisplay) {
+                masteryDisplay.textContent = dashboardData.mastery_level;
+            }
+        }
+        
+        // Load recommended problems
+        async function loadRecommendedProblems(userId) {
+            try {
+                // Call the recommendation function
+                const { data, error } = await supabase.rpc('get_recommended_problems', { 
+                    user_uuid: userId,
+                    limit_count: 3
+                });
+                
+                if (error) {
+                    console.error('Error getting recommended problems:', error);
+                    return;
+                }
+                
+                // If we got recommendations, update the UI
+                if (data && data.length > 0) {
+                    const suggestedProblemsContainer = document.querySelector('.dashboard-card:nth-child(2) .space-y-4');
+                    if (suggestedProblemsContainer) {
+                        // Clear existing suggestions
+                        suggestedProblemsContainer.innerHTML = '';
+                        
+                        // Add recommended problems
+                        data.forEach(problem => {
+                            const difficultyClass = problem.difficulty === 'easy' ? 'easy' : 
+                                                  problem.difficulty === 'hard' ? 'hard' : 'medium';
+                            
+                            const problemHtml = `
+                                <a href="problem.html?problem=${problem.slug}" class="border border-gray-700 rounded-lg p-4 hover:border-yellow-300 transition-colors cursor-pointer block">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <h3 class="font-medium">${problem.title}</h3>
+                                        <span class="difficulty-tag ${difficultyClass}">${problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1)}</span>
+                                    </div>
+                                    <p class="text-gray-400 text-sm mb-3">${problem.description.length > 100 ? problem.description.substring(0, 100) + '...' : problem.description}</p>
+                                    <div class="flex items-center text-sm">
+                                        ${problem.topics.map(topic => `<span class="topic-tag mr-2">${topic}</span>`).join('')}
+                                        ${problem.pattern_name ? `<span class="topic-tag bg-yellow-900 text-yellow-200">Pattern: ${problem.pattern_name}</span>` : ''}
+                                        <div class="flex-grow"></div>
+                                        <div class="text-yellow-300 text-xs">CheatCode Available</div>
+                                    </div>
+                                </a>
+                            `;
+                            
+                            suggestedProblemsContainer.innerHTML += problemHtml;
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading recommended problems:', error);
+            }
+        }
+        
+        // Update user info in the dashboard (fallback)
+        function updateUserInfo(user) {
+            // Set user name from metadata or email
+            const firstName = user.user_metadata?.firstName || user.email?.split('@')[0] || 'User';
+            
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Welcome back, ${firstName}!`;
+            }
+            
+            if (userInitial && firstName) {
+                userInitial.textContent = firstName.charAt(0).toUpperCase();
+            }
+            
+            if (userName) {
+                userName.textContent = firstName;
+            }
+        }
+        
+        // Update dashboard based on user preferences (fallback)
+        function updatePreferences(preferences) {
+            // Set daily goal based on commitment preference
+            let dailyGoal = 1;
+            
+            if (preferences.commitment === '3') {
+                dailyGoal = 3;
+            } else if (preferences.commitment === '5') {
+                dailyGoal = 5;
+            }
+            
+            // Update today's goal
+            const problemsCompleted = 0; // Default to 0, will need to calculate from actual progress
+            if (todayGoalDisplay) {
+                todayGoalDisplay.textContent = `${problemsCompleted} / ${dailyGoal}`;
+            }
+            
+            // Update progress bar
+            if (progressBar) {
+                const percentage = (problemsCompleted / dailyGoal) * 100;
+                progressBar.style.width = `${percentage}%`;
+            }
+        }
+        
+        // Update progress statistics (fallback)
+        function updateProgressStats(progressData, preferences) {
+            // Calculate streak (in a real app, we'd calculate this from activity data)
+            const streak = 0;
+            if (streakDisplay) {
+                streakDisplay.querySelector('span').textContent = `${streak} day streak!`;
+            }
+            
+            // Update total problems solved
+            const totalSolved = progressData?.length || 0;
+            if (problemsSolvedDisplay) {
+                problemsSolvedDisplay.textContent = totalSolved.toString();
+            }
+            
+            // Calculate mastery level based on total solved
+            let masteryLevel = 'Bronze';
+            if (totalSolved >= 30) {
+                masteryLevel = 'Silver';
+            }
+            if (totalSolved >= 60) {
+                masteryLevel = 'Gold';
+            }
+            if (totalSolved >= 100) {
+                masteryLevel = 'Platinum';
+            }
+            
+            const masteryDisplay = document.querySelector('.bg-gray-800:nth-child(3) .text-2xl');
+            if (masteryDisplay) {
+                masteryDisplay.textContent = masteryLevel;
+            }
+        }
+        
+        // Update current date
+        function updateCurrentDate() {
+            const dateDisplay = document.querySelector('.text-gray-400 .text-yellow-300');
+            if (dateDisplay) {
+                const now = new Date();
+                const options = { weekday: 'long' };
+                const dayName = new Intl.DateTimeFormat('en-US', options).format(now);
+                
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                  "July", "August", "September", "October", "November", "December"];
+                  
+                dateDisplay.textContent = dayName;
+                dateDisplay.nextElementSibling.textContent = `, ${monthNames[now.getMonth()]} ${now.getDate()}, ${now.getFullYear()}`;
+            }
+        }
+        
+        // Handle sign out
+        function setupSignOut() {
+            const profileButton = document.querySelector('.btn-outline');
+            if (profileButton) {
+                profileButton.addEventListener('click', async () => {
+                    if (confirm('Are you sure you want to sign out?')) {
+                        try {
+                            await signOutUser();
+                            window.location.href = 'index.html';
+                        } catch (error) {
+                            console.error('Error signing out:', error);
+                            alert('Failed to sign out. Please try again.');
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCurrentDate();
+            initDashboard();
+            setupSignOut();
+        });
+    </script>
+</body>
+</html> 

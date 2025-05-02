@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - CheatCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="problem.html" class="hover:text-yellow-300 transition-colors">Problems</a></li>
+                    <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                    <li><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <ul class="flex flex-col space-y-4 p-4">
+                <li><a href="problem.html" class="block hover:text-yellow-300 transition-colors">Problems</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                <li><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-md mx-auto bg-gray-900 rounded-lg p-8 shadow-lg">
+            <h1 class="text-3xl font-bold text-center mb-4">Join CheatCode</h1>
+            <p class="text-center text-gray-400 mb-8">Create your account to start mastering coding patterns</p>
+            
+            <form id="register-form" class="space-y-6">
+                <div>
+                    <label for="name" class="block mb-2 text-sm font-medium">Full Name</label>
+                    <input type="text" id="name" class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50" required>
+                </div>
+                
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50" required>
+                </div>
+                
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50" required>
+                    <p class="mt-1 text-sm text-gray-400">Must be at least 8 characters with 1 uppercase, 1 number, and 1 special character</p>
+                </div>
+                
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="terms" type="checkbox" class="h-4 w-4 text-yellow-300 focus:ring-yellow-300 border-gray-600 rounded" required>
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="terms" class="text-gray-300">I agree to the <a href="#" class="text-yellow-300 hover:underline">Terms of Service</a> and <a href="#" class="text-yellow-300 hover:underline">Privacy Policy</a></label>
+                    </div>
+                </div>
+                
+                <div>
+                    <button type="submit" id="register-button" class="w-full btn-primary py-2">Create Account</button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <span class="text-gray-400">Already have an account?</span>
+                    <a href="login.html" class="text-yellow-300 hover:underline ml-1">Sign in</a>
+                </div>
+                
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-900 text-gray-400">Or register with</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium hover:bg-gray-800">
+                        <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+                        </svg>
+                        <span>Google</span>
+                    </a>
+                    
+                    <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium hover:bg-gray-800">
+                        <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                        </svg>
+                        <span>GitHub</span>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="module">
+        // Import Supabase client and functions for login after registration
+        import { supabase, loginUser } from './supabase.js';
+        
+        // Initialize form submission
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                // Get form data
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const terms = document.getElementById('terms').checked;
+                
+                if (!name || !email || !password) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                if (!terms) {
+                    alert('Please agree to the Terms of Service and Privacy Policy.');
+                    return;
+                }
+                
+                // Disable the button and show loading state
+                const button = document.getElementById('register-button');
+                button.disabled = true;
+                button.textContent = 'Creating Account...';
+                
+                // Get first and last name from full name
+                const nameParts = name.split(' ');
+                const firstName = nameParts[0] || '';
+                const lastName = nameParts.slice(1).join(' ') || '';
+                
+                // Register user with API
+                const registerResponse = await fetch('/api/auth/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        firstName,
+                        lastName
+                    })
+                });
+                
+                const registerData = await registerResponse.json();
+                
+                if (!registerResponse.ok || !registerData.success) {
+                    throw new Error(registerData.error || 'Registration failed');
+                }
+                
+                // Sign in immediately after registration
+                const { user: loggedInUser } = await loginUser(email, password);
+                
+                if (!loggedInUser) {
+                    throw new Error('Auto-login failed');
+                }
+                
+                // Create user profile
+                const profileResponse = await fetch('/api/profiles/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: loggedInUser.id,
+                        firstName,
+                        lastName,
+                        email
+                    })
+                });
+                
+                const profileData = await profileResponse.json();
+                
+                if (!profileResponse.ok || !profileData.success) {
+                    console.warn('Profile creation issue:', profileData.error);
+                    // Continue anyway, as this is not critical
+                }
+                
+                // Save default onboarding data
+                const preferencesResponse = await fetch('/api/preferences', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: loggedInUser.id,
+                        goal: 'practice',
+                        difficulty: 'mixed',
+                        commitment: '1',
+                        onboardingCompleted: true
+                    })
+                });
+                
+                const preferencesData = await preferencesResponse.json();
+                
+                if (!preferencesResponse.ok || !preferencesData.success) {
+                    console.warn('Preferences issue:', preferencesData.error);
+                    // Continue anyway, as this is not critical
+                }
+                
+                // Redirect to dashboard
+                alert('Registration successful! Welcome to CheatCode.');
+                window.location.href = 'dashboard.html';
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed: ' + (error.message || 'Please try again'));
+                
+                // Reset button
+                const button = document.getElementById('register-button');
+                button.disabled = false;
+                button.textContent = 'Create Account';
+            }
+        });
+    </script>
+</body>
+</html> 

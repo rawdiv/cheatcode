@@ -1,0 +1,519 @@
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const { createClient } = require('@supabase/supabase-js');
+const bodyParser = require('body-parser');
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const session = require('express-session');
+const path = require('path');
+
+// Initialize Express app
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware
+app.use(cors({
+  origin: ['http://localhost:8000', 'http://127.0.0.1:8000', '*'],
+  credentials: true
+}));
+app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname)));
+
+// Configure session management
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'cheatcode-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { 
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Initialize Supabase client
+const supabaseUrl = process.env.SUPABASE_URL || 'https://dyiuezrvgafcmgrikilg.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5aXVlenJ2Z2FmY21ncmlraWxnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDYwOTk4NDksImV4cCI6MjA2MTY3NTg0OX0.4mbBNBzLqhGtfl6sgl1HarxvIjo0gy-crWNm4FEASUg';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Initialize Gemini API
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || 'YOUR_GEMINI_API_KEY'); // Replace with your API key
+const geminiModel = genAI.getGenerativeModel({ model: "gemini-pro" });
+
+// Authentication Endpoints
+
+// User signup
+app.post('/api/auth/signup', async (req, res) => {
+  try {
+    const { email, password, firstName, lastName } = req.body;
+    
+    // Sign up user
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          firstName,
+          lastName
+        }
+      }
+    });
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, user: data.user });
+  } catch (error) {
+    console.error('Signup error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// User login
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Sign in user
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+    
+    if (error) throw error;
+    
+    // Store user in session
+    req.session.user = data.user;
+    
+    res.status(200).json({ success: true, user: data.user, session: data.session });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// User logout
+app.post('/api/auth/logout', async (req, res) => {
+  try {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw error;
+    
+    // Clear session
+    req.session.destroy();
+    
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// User Profile Endpoints
+
+// Create user profile
+app.post('/api/profiles/create', async (req, res) => {
+  try {
+    const { userId, firstName, lastName, email } = req.body;
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .insert([
+        { 
+          id: userId,
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          created_at: new Date()
+        }
+      ]);
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, profile: data });
+  } catch (error) {
+    console.error('Create profile error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Get user profile
+app.get('/api/profiles/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, profile: data });
+  } catch (error) {
+    console.error('Get profile error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Update user profile
+app.put('/api/profiles/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const updates = req.body;
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .update(updates)
+      .eq('id', userId);
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, profile: data });
+  } catch (error) {
+    console.error('Update profile error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// User Preferences Endpoints
+
+// Save user preferences
+app.post('/api/preferences', async (req, res) => {
+  try {
+    const { userId, goal, commitment, difficulty, onboardingCompleted } = req.body;
+    
+    const { data, error } = await supabase
+      .from('user_preferences')
+      .upsert([
+        {
+          user_id: userId,
+          goal: goal,
+          commitment: commitment,
+          difficulty: difficulty,
+          onboarding_completed: onboardingCompleted,
+          updated_at: new Date()
+        }
+      ]);
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, preferences: data });
+  } catch (error) {
+    console.error('Save preferences error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Get user preferences
+app.get('/api/preferences/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    const { data, error } = await supabase
+      .from('user_preferences')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    
+    if (error && error.code !== 'PGRST116') throw error;
+    
+    res.status(200).json({ success: true, preferences: data });
+  } catch (error) {
+    console.error('Get preferences error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Problem Endpoints
+
+// Generate coding problem
+app.get('/api/generate-problem', async (req, res) => {
+  try {
+    const { difficulty, topics } = req.query;
+    const topicsArray = topics ? topics.split(',') : [];
+    
+    // Generate problem using AI
+    const problem = await generateCodingProblem(difficulty, topicsArray);
+    
+    // Store the generated problem in the session
+    req.session.currentProblem = problem;
+    
+    // Remove solution before sending to client
+    const sanitizedProblem = { ...problem };
+    delete sanitizedProblem.solution;
+    
+    res.json(sanitizedProblem);
+  } catch (error) {
+    console.error('Generate problem error:', error);
+    res.status(500).json({ error: 'Failed to generate problem' });
+  }
+});
+
+// Get problem solution
+app.get('/api/problem-solution', async (req, res) => {
+  try {
+    // Check if user is authenticated
+    if (!req.session.user) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+    
+    // Get the solution from the current problem
+    const solution = req.session.currentProblem?.solution;
+    
+    if (!solution) {
+      return res.status(404).json({ error: 'No solution found' });
+    }
+    
+    res.json({ solution });
+  } catch (error) {
+    console.error('Get solution error:', error);
+    res.status(500).json({ error: 'Failed to get solution' });
+  }
+});
+
+// Evaluate solution
+app.post('/api/evaluate-solution', async (req, res) => {
+  try {
+    const { code, language } = req.body;
+    
+    // Get the current problem from session
+    const problem = req.session.currentProblem;
+    
+    if (!problem) {
+      return res.status(404).json({ error: 'No current problem found' });
+    }
+    
+    // Evaluate the solution
+    const evaluation = await verifySolution(problem, code, language);
+    
+    res.json(evaluation);
+  } catch (error) {
+    console.error('Evaluate solution error:', error);
+    res.status(500).json({ error: 'Failed to evaluate solution' });
+  }
+});
+
+// Get problems list
+app.get('/api/problems', async (req, res) => {
+  try {
+    const { limit = 10, offset = 0, difficulty } = req.query;
+    
+    let query = supabase
+      .from('problems')
+      .select('*');
+    
+    if (difficulty) {
+      query = query.eq('difficulty', difficulty);
+    }
+    
+    const { data, error } = await query
+      .range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1);
+    
+    if (error) throw error;
+    
+    res.json(data);
+  } catch (error) {
+    console.error('Get problems error:', error);
+    res.status(500).json({ error: 'Failed to get problems' });
+  }
+});
+
+// User Progress Endpoints
+
+// Save user progress
+app.post('/api/progress', async (req, res) => {
+  try {
+    const { userId, problemId, status, solution, language, timeSpent } = req.body;
+    
+    const { data, error } = await supabase
+      .from('user_progress')
+      .upsert([
+        {
+          user_id: userId,
+          problem_id: problemId,
+          status: status,
+          solution: solution,
+          language: language,
+          time_spent: timeSpent,
+          completed_at: status === 'completed' ? new Date() : null,
+          updated_at: new Date()
+        }
+      ]);
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, progress: data });
+  } catch (error) {
+    console.error('Save progress error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Get user progress
+app.get('/api/progress/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    const { data, error } = await supabase
+      .from('user_progress')
+      .select('*')
+      .eq('user_id', userId);
+    
+    if (error) throw error;
+    
+    res.status(200).json({ success: true, progress: data });
+  } catch (error) {
+    console.error('Get progress error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Dashboard Data Endpoint
+
+// Get user dashboard data
+app.get('/api/dashboard/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    const { data, error } = await supabase
+      .from('user_dashboard_data')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    
+    if (error) {
+      // Fallback: get individual data
+      const [preferences, progress, profile] = await Promise.all([
+        supabase.from('user_preferences').select('*').eq('user_id', userId).single(),
+        supabase.from('user_progress').select('*').eq('user_id', userId),
+        supabase.from('profiles').select('*').eq('id', userId).single()
+      ]);
+      
+      // Calculate stats
+      const totalSolved = progress.data?.length || 0;
+      let masteryLevel = 'Bronze';
+      if (totalSolved >= 30) masteryLevel = 'Silver';
+      if (totalSolved >= 60) masteryLevel = 'Gold';
+      if (totalSolved >= 100) masteryLevel = 'Platinum';
+      
+      const dashboardData = {
+        user_id: userId,
+        first_name: profile.data?.first_name || '',
+        problems_solved: totalSolved,
+        current_streak: 0, // Would need to calculate
+        mastery_level: masteryLevel,
+        goal: preferences.data?.goal || 'practice',
+        commitment: preferences.data?.commitment || '1',
+        difficulty: preferences.data?.difficulty || 'mixed',
+        solved_today: 0 // Would need to calculate
+      };
+      
+      return res.status(200).json({ success: true, dashboard: dashboardData });
+    }
+    
+    res.status(200).json({ success: true, dashboard: data });
+  } catch (error) {
+    console.error('Get dashboard error:', error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// Helper Functions
+
+// Generate coding problem using Gemini
+async function generateCodingProblem(difficulty, topics) {
+  try {
+    const prompt = `Generate a coding interview problem with the following characteristics:
+      - Difficulty: ${difficulty || 'medium'}
+      - Topics: ${topics ? topics.join(', ') : 'data structures, algorithms'}
+      
+      Format the response as JSON with the following structure:
+      {
+        "title": "Problem title",
+        "description": "Detailed problem description with constraints",
+        "examples": [
+          {"input": "Example input", "output": "Expected output", "explanation": "Explanation of the example"}
+        ],
+        "testCases": [
+          {"input": "Test input", "output": "Expected output"}
+        ],
+        "solution": {
+          "approach": "Explanation of the solution approach",
+          "code": "Solution code in Python"
+        }
+      }`;
+
+    const result = await geminiModel.generateContent(prompt);
+    const responseText = result.response.text();
+    
+    // Extract the JSON from the response
+    const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/) || 
+                      responseText.match(/{[\s\S]*}/) ||
+                      responseText;
+    
+    const problemData = jsonMatch ? JSON.parse(jsonMatch[1] || jsonMatch[0]) : null;
+    
+    if (!problemData) {
+      throw new Error("Failed to generate a valid problem");
+    }
+    
+    return problemData;
+  } catch (error) {
+    console.error("Error generating problem:", error);
+    throw error;
+  }
+}
+
+// Verify solution using Gemini
+async function verifySolution(problem, userCode, language) {
+  try {
+    const prompt = `You are a code evaluator. 
+      
+      PROBLEM:
+      ${problem.description}
+      
+      EXPECTED SOLUTION:
+      ${problem.solution.code}
+      
+      USER SOLUTION (${language}):
+      ${userCode}
+      
+      Evaluate if the user's solution is correct for the given problem. 
+      Consider: correctness, time complexity, space complexity, and edge cases.
+      Run through the test cases mentally and determine if the solution works.
+      Respond in JSON format:
+      {
+        "isCorrect": true/false,
+        "feedback": "Detailed feedback explaining what's right or wrong",
+        "testResults": [
+          {"testCase": "Test case description", "passed": true/false, "explanation": "Why it passed/failed"}
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)"
+      }`;
+
+    const result = await geminiModel.generateContent(prompt);
+    const responseText = result.response.text();
+    
+    // Extract the JSON from the response
+    const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/) || 
+                      responseText.match(/{[\s\S]*}/) ||
+                      responseText;
+    
+    const evaluation = jsonMatch ? JSON.parse(jsonMatch[1] || jsonMatch[0]) : null;
+    
+    if (!evaluation) {
+      throw new Error("Failed to generate a valid evaluation");
+    }
+    
+    return evaluation;
+  } catch (error) {
+    console.error("Error evaluating solution:", error);
+    throw error;
+  }
+}
+
+// Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Visit http://localhost:${PORT} to access the application`);
+}); 

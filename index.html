@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CheatCode - Crack Any Coding Interview</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800 animate-slideDown">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="problem.html" class="hover:text-yellow-300 transition-colors">Problems</a></li>
+                    <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                    <li><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                    <li><a href="login.html" class="btn-outline py-2">Login</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <ul class="flex flex-col space-y-4 p-4">
+                <li><a href="problem.html" class="block hover:text-yellow-300 transition-colors">Problems</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                <li><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                <li><a href="login.html" class="btn-outline inline-block">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-12">
+        <!-- Hero Section -->
+        <section class="text-center my-20">
+            <h1 class="text-6xl font-bold mb-16 animate-fadeIn">
+                Crack Any Coding<br>Interview with<br><span class="text-yellow-300">CheatCode</span>
+            </h1>
+            
+            <div class="flex justify-center gap-4 mb-20 animate-slideUp delay-300">
+                <button class="btn-primary animate-pulse" id="demo-btn">Try a Demo Problem</button>
+                <button class="btn-outline" id="register-btn">Register Now</button>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">How It Works</h2>
+            
+            <div class="flex flex-wrap justify-center gap-16 feature-cards-container">
+                <!-- Feature 1 -->
+                <div class="feature-card animate-fadeIn delay-100">
+                    <div class="icon text-yellow-300 mb-6 animate-float">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 1L21 5V11C21 16.55 17.16 21.74 12 23C6.84 21.74 3 16.55 3 11V5L12 1M12 3.18L5 6.3V11.22C5 15.54 8.25 19.69 12 20.82C15.75 19.69 19 15.54 19 11.22V6.3L12 3.18M12 6.5C13.76 6.5 15.5 7.24 16.5 8.74V11.92H15V8.74C14.37 7.72 13.22 7 12 7C10.03 7 8.5 8.53 8.5 10.5V12H7V10.5C7 7.97 9.24 6.5 12 6.5M15.89 16.3L14.5 17.7L12 15.2L9.5 17.7L8.11 16.3L10.61 13.8L8.11 11.3L9.5 9.91L12 12.41L14.5 9.91L15.89 11.3L13.39 13.8L15.89 16.3Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Problem Solving</h3>
+                    <p class="text-gray-400">Tackle a variety of coding challenges</p>
+                </div>
+                
+                <!-- Feature 2 -->
+                <div class="feature-card animate-fadeIn delay-200">
+                    <div class="icon text-yellow-300 mb-6 animate-float">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8,3A2,2 0 0,0 6,5V9A2,2 0 0,1 4,11H3V13H4A2,2 0 0,1 6,15V19A2,2 0 0,0 8,21H10V19H8V14A2,2 0 0,0 6,12A2,2 0 0,0 8,10V5H10V3M16,3A2,2 0 0,1 18,5V9A2,2 0 0,0 20,11H21V13H20A2,2 0 0,0 18,15V19A2,2 0 0,1 16,21H14V19H16V14A2,2 0 0,1 18,12A2,2 0 0,1 16,10V5H14V3H16Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Code Execution</h3>
+                    <p class="text-gray-400">Write and test your code in our editor</p>
+                </div>
+                
+                <!-- Feature 3 -->
+                <div class="feature-card animate-fadeIn delay-300">
+                    <div class="icon text-yellow-300 mb-6 animate-float">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M9,19H7V13H9V19M13,19H11V9H13V19M17,19H15V5H17V19Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Progress Tracking</h3>
+                    <p class="text-gray-400">Monitor your coding journey over time</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Problems Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">Featured Problems</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <!-- Problem 1 -->
+                <div class="problem-card animate-fadeIn delay-100" data-problem="two-sum">
+                    <h3 class="text-2xl font-bold text-center">Two Sum</h3>
+                </div>
+                
+                <!-- Problem 2 -->
+                <div class="problem-card animate-fadeIn delay-200" data-problem="palindrome-number">
+                    <h3 class="text-2xl font-bold text-center">Palindrome Number</h3>
+                </div>
+                
+                <!-- Problem 3 -->
+                <div class="problem-card animate-fadeIn delay-300" data-problem="valid-parentheses">
+                    <h3 class="text-2xl font-bold text-center">Valid Parentheses</h3>
+                </div>
+                
+                <!-- Problem 4 -->
+                <div class="problem-card animate-fadeIn delay-400" data-problem="merge-sorted-lists">
+                    <h3 class="text-2xl font-bold text-center">Merge Two Sorted Lists</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cheatsheet Preview Section -->
+        <section class="my-24">
+            <h2 class="text-4xl font-bold text-yellow-300 mb-16">Cheatsheet Preview</h2>
+            
+            <div class="code-block max-w-2xl mx-auto animate-slideUp">
+                <pre><span class="line-number">1</span><span class="py-keyword">def</span> <span class="py-function">reverse_string</span>(s:):
+<span class="line-number">2</span>    <span class="py-keyword">return</span> s[::-1]</pre>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-gray-900 py-12 animate-fadeIn">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-xl font-bold text-yellow-300 mb-4">CheatCode</h3>
+                    <p class="text-gray-400 max-w-md">Accelerate your coding interview preparation with patterns, templates, and cheatcodes.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Platform</h4>
+                        <ul class="space-y-2">
+                            <li><a href="problem.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Problems</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                            <li><a href="dashboard.html" class="text-gray-400 hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Company</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">About</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Contact</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Blog</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold mb-4">Legal</h4>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Terms</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors">Privacy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // Animate elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // This function will check if an element is in the viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Function to handle scroll events and animate elements
+            function handleScroll() {
+                const sections = document.querySelectorAll('section');
+                
+                sections.forEach(section => {
+                    if (isInViewport(section) && !section.classList.contains('has-animated')) {
+                        section.classList.add('has-animated');
+                        section.style.animationPlayState = 'running';
+                    }
+                });
+            }
+            
+            // Add scroll event listener
+            window.addEventListener('scroll', handleScroll);
+            
+            // Trigger once on page load
+            handleScroll();
+        });
+    </script>
+</body>
+</html> 

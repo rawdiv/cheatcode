@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to CheatCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .onboarding-container {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            perspective: 1000px;
+        }
+        
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .step-dot {
+            width: 0.75rem;
+            height: 0.75rem;
+            border-radius: 50%;
+            background-color: #374151;
+            margin: 0 0.5rem;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        .step-dot.active {
+            background-color: #FFD43B;
+            transform: scale(1.5);
+            box-shadow: 0 0 15px rgba(255, 212, 59, 0.5);
+        }
+        
+        .step-dot.completed {
+            background-color: #10B981;
+            transform: scale(1.2);
+        }
+        
+        .onboarding-step {
+            display: none;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            opacity: 0;
+        }
+        
+        .onboarding-step.active {
+            display: block;
+            animation: stepEntry 0.8s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        
+        @keyframes stepEntry {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .step-exit {
+            animation: stepExit 0.5s forwards;
+        }
+        
+        @keyframes stepExit {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.9);
+            }
+        }
+        
+        .goal-option, .commitment-option, .difficulty-option {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            border: 2px solid transparent;
+            background-color: #1F2937;
+            position: relative;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+        
+        .goal-option:hover, .commitment-option:hover, .difficulty-option:hover {
+            border-color: #FFD43B;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .goal-option.selected, .commitment-option.selected, .difficulty-option.selected {
+            border-color: #FFD43B;
+            background-color: rgba(255, 212, 59, 0.1);
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(255, 212, 59, 0.2);
+        }
+        
+        .option-ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 212, 59, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Confetti animation for completion */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #FFD43B;
+            opacity: 0;
+            animation: confetti 3s ease-in-out forwards;
+        }
+        
+        @keyframes confetti {
+            0% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(300px) rotate(720deg);
+            }
+        }
+        
+        /* Icon animation */
+        .icon-wrapper {
+            display: inline-flex;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        /* Summary card animation */
+        .summary-card {
+            animation: cardAppear 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+        
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800 animate-slideDown">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 onboarding-container">
+        <div class="step-indicator animate-fadeIn">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+            <div class="step-dot" id="dot-4"></div>
+            <div class="step-dot" id="dot-5"></div>
+        </div>
+        
+        <!-- Step 1: Welcome -->
+        <div class="onboarding-step active" id="step-1">
+            <h1 class="text-4xl font-bold mb-6 animate-fadeIn">Welcome to <span class="text-yellow-300">CheatCode</span></h1>
+            <p class="text-xl text-gray-400 mb-8 animate-fadeIn delay-200">Your journey to mastering coding interviews starts here.</p>
+            <p class="text-gray-400 mb-12 max-w-md mx-auto animate-fadeIn delay-300">CheatCode helps you learn faster with pattern recognition and optimized practice.</p>
+            <div class="flex justify-center animate-fadeIn delay-400">
+                <button id="next-1" class="btn-primary py-3 px-8 text-lg animate-pulse">Get Started</button>
+            </div>
+            <img src="https://via.placeholder.com/600x300?text=CheatCode+Welcome" alt="Welcome Illustration" class="mt-8 rounded-lg mx-auto opacity-75 animate-float">
+        </div>
+        
+        <!-- Step 2: What's Your Goal -->
+        <div class="onboarding-step" id="step-2">
+            <h1 class="text-4xl font-bold mb-6">What's Your Goal?</h1>
+            <p class="text-gray-400 mb-8">We'll personalize your experience based on what you want to achieve.</p>
+            
+            <div class="space-y-4 mb-12">
+                <div class="goal-option p-6 rounded-lg" data-goal="interviews">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd" />
+                                <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z" />
+                            </svg>
+                        </span>
+                        Crack Coding Interviews
+                    </h3>
+                    <p class="text-gray-400 mt-2">Prepare for technical interviews at top tech companies</p>
+                </div>
+                
+                <div class="goal-option p-6 rounded-lg" data-goal="learn">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                            </svg>
+                        </span>
+                        Master Data Structures & Algorithms
+                    </h3>
+                    <p class="text-gray-400 mt-2">Build a strong foundation in CS concepts and problem-solving</p>
+                </div>
+                
+                <div class="goal-option p-6 rounded-lg" data-goal="practice">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                            </svg>
+                        </span>
+                        Regular Coding Practice
+                    </h3>
+                    <p class="text-gray-400 mt-2">Keep your skills sharp with daily coding challenges</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-2" class="btn-outline py-2 px-6">Back</button>
+                <button id="next-2" class="btn-primary py-2 px-6">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 3: Daily Commitment -->
+        <div class="onboarding-step" id="step-3">
+            <h1 class="text-4xl font-bold mb-6">Pick Your Daily Commitment</h1>
+            <p class="text-gray-400 mb-8">How many problems do you aim to solve each day?</p>
+            
+            <div class="space-y-4 mb-12">
+                <div class="commitment-option p-6 rounded-lg" data-commitment="1">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        1 Problem / Day
+                    </h3>
+                    <p class="text-gray-400 mt-2">Perfect for busy professionals and beginners</p>
+                </div>
+                
+                <div class="commitment-option p-6 rounded-lg" data-commitment="3">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        3-5 Problems / Day
+                    </h3>
+                    <p class="text-gray-400 mt-2">Ideal for active preparation and steady progress</p>
+                </div>
+                
+                <div class="commitment-option p-6 rounded-lg" data-commitment="5">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="icon-wrapper mr-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-300" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd" />
+                            </svg>
+                        </span>
+                        5+ Problems / Day
+                    </h3>
+                    <p class="text-gray-400 mt-2">For intensive interview preparation or competitive programmers</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-3" class="btn-outline py-2 px-6">Back</button>
+                <button id="next-3" class="btn-primary py-2 px-6">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 4: Difficulty Level -->
+        <div class="onboarding-step" id="step-4">
+            <h1 class="text-4xl font-bold mb-6">Choose Your Difficulty Level</h1>
+            <p class="text-gray-400 mb-8">What level of challenge are you comfortable with?</p>
+            
+            <div class="space-y-4 mb-12">
+                <div class="difficulty-option p-6 rounded-lg" data-difficulty="easy">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center mr-3 text-black font-bold text-xs">E</span>
+                        Easy
+                    </h3>
+                    <p class="text-gray-400 mt-2">Build confidence with fundamental problems</p>
+                </div>
+                
+                <div class="difficulty-option p-6 rounded-lg" data-difficulty="medium">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center mr-3 text-black font-bold text-xs">M</span>
+                        Medium
+                    </h3>
+                    <p class="text-gray-400 mt-2">Challenge yourself with more complex problems</p>
+                </div>
+                
+                <div class="difficulty-option p-6 rounded-lg" data-difficulty="hard">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center mr-3 text-black font-bold text-xs">H</span>
+                        Hard
+                    </h3>
+                    <p class="text-gray-400 mt-2">Tackle the most difficult interview questions</p>
+                </div>
+                
+                <div class="difficulty-option p-6 rounded-lg" data-difficulty="mixed">
+                    <h3 class="text-xl font-semibold flex items-center justify-center">
+                        <span class="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center mr-3 text-black font-bold text-xs">A</span>
+                        Mixed (Recommended)
+                    </h3>
+                    <p class="text-gray-400 mt-2">Balanced mix of all difficulty levels for optimal learning</p>
+                </div>
+            </div>
+            
+            <div class="flex justify-between">
+                <button id="prev-4" class="btn-outline py-2 px-6">Back</button>
+                <button id="next-4" class="btn-primary py-2 px-6">Continue</button>
+            </div>
+        </div>
+        
+        <!-- Step 5: Done -->
+        <div class="onboarding-step" id="step-5">
+            <div class="mb-8">
+                <div id="confetti-container" class="w-full h-40 relative"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-green-500 mb-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h1 class="text-4xl font-bold mb-4 animate-fadeIn">You're All Set!</h1>
+                <p class="text-xl text-gray-400 mb-2 animate-fadeIn delay-100">Your personalized learning path is ready</p>
+                <p class="text-gray-400 mb-8 animate-fadeIn delay-200">We've customized your dashboard based on your preferences.</p>
+            </div>
+            
+            <div class="bg-gray-800 p-6 rounded-lg mb-8 max-w-md mx-auto summary-card">
+                <h3 class="font-semibold mb-4 text-yellow-300">Your Preferences</h3>
+                <div class="space-y-2 text-left">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Goal:</span>
+                        <span id="summary-goal" class="font-medium">Crack Coding Interviews</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Daily Commitment:</span>
+                        <span id="summary-commitment" class="font-medium">3-5 Problems / Day</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-400">Difficulty Level:</span>
+                        <span id="summary-difficulty" class="font-medium">Mixed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center animate-fadeIn delay-300">
+                <button id="complete-onboarding" class="btn-primary py-3 px-8 text-lg">Go to Dashboard</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="module">
+        // Import Supabase client and functions
+        import { supabase, getCurrentUser, getUserPreferences, saveOnboardingData 
+        } from './supabase.js';
+
+        // Onboarding state
+        let currentStep = 1;
+        let onboardingData = {
+            goal: '',
+            commitment: '',
+            difficulty: ''
+        };
+        
+        // Check if user is authenticated
+        async function checkAuth() {
+            try {
+                const user = await getCurrentUser();
+                if (!user) {
+                    // Redirect to login if not authenticated
+                    window.location.href = 'login.html';
+                    return null;
+                }
+                return user;
+            } catch (error) {
+                console.error('Authentication error:', error);
+                // Show error message
+                alert('Authentication error. Please login again.');
+                window.location.href = 'login.html';
+                return null;
+            }
+        }
+        
+        // Load user preferences if already saved
+        async function loadUserPreferences() {
+            try {
+                const user = await checkAuth();
+                if (!user) return;
+                
+                const preferences = await getUserPreferences(user.id);
+                if (preferences && preferences.onboarding_completed) {
+                    // If user already completed onboarding, redirect to dashboard
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+                
+                // Pre-fill any existing preferences
+                if (preferences) {
+                    onboardingData.goal = preferences.goal || '';
+                    onboardingData.commitment = preferences.commitment || '';
+                    onboardingData.difficulty = preferences.difficulty || '';
+                    
+                    // Update UI to show selected options
+                    if (onboardingData.goal) {
+                        document.querySelector(`.goal-option[data-goal="${onboardingData.goal}"]`)?.classList.add('selected');
+                    }
+                    
+                    if (onboardingData.commitment) {
+                        document.querySelector(`.commitment-option[data-commitment="${onboardingData.commitment}"]`)?.classList.add('selected');
+                    }
+                    
+                    if (onboardingData.difficulty) {
+                        document.querySelector(`.difficulty-option[data-difficulty="${onboardingData.difficulty}"]`)?.classList.add('selected');
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading preferences:', error);
+            }
+        }
+        
+        // Save user preferences (without completing onboarding)
+        async function savePreferences() {
+            try {
+                const user = await checkAuth();
+                if (!user) return;
+                
+                // Save the current preferences but don't mark onboarding as completed
+                const { data, error } = await supabase
+                    .from('user_preferences')
+                    .upsert({
+                        user_id: user.id,
+                        goal: onboardingData.goal,
+                        commitment: onboardingData.commitment,
+                        difficulty: onboardingData.difficulty,
+                        onboarding_completed: false,
+                        updated_at: new Date()
+                    });
+                
+                if (error) {
+                    console.error('Error saving preferences:', error);
+                }
+            } catch (error) {
+                console.error('Error saving preferences:', error);
+            }
+        }
+        
+        // Step navigation functions
+        function goToStep(step) {
+            const currentStepEl = document.getElementById(`step-${currentStep}`);
+            const nextStepEl = document.getElementById(`step-${step}`);
+            
+            // Add exit animation to current step
+            if (currentStepEl && currentStepEl.classList.contains('active')) {
+                currentStepEl.classList.add('step-exit');
+                
+                // Wait for exit animation to complete
+                setTimeout(() => {
+                    // Update active step
+                    document.querySelectorAll('.onboarding-step').forEach(el => {
+                        el.classList.remove('active', 'step-exit');
+                    });
+                    nextStepEl.classList.add('active');
+                    
+                    // Update step dots with animation
+                    document.querySelectorAll('.step-dot').forEach((dot, index) => {
+                        dot.classList.remove('active', 'completed');
+                        if (index + 1 === step) {
+                            dot.classList.add('active');
+                        } else if (index + 1 < step) {
+                            dot.classList.add('completed');
+                        }
+                    });
+                    
+                    // If step 5 (completion), create confetti
+                    if (step === 5) {
+                        createConfetti();
+                        updateSummary();
+                    }
+                    
+                    // Save preferences after each step (except first and last)
+                    if (currentStep > 1 && currentStep < 5) {
+                        savePreferences();
+                    }
+                }, 300); // Should match the exit animation duration
+            } else {
+                // If no current active step (first load), just show the requested step
+                document.querySelectorAll('.onboarding-step').forEach(el => {
+                    el.classList.remove('active');
+                });
+                nextStepEl.classList.add('active');
+            }
+            
+            currentStep = step;
+        }
+        
+        // Create confetti effect for completion step
+        function createConfetti() {
+            const container = document.getElementById('confetti-container');
+            const colors = ['#FFD43B', '#10B981', '#3B82F6', '#EF4444', '#8B5CF6'];
+            
+            // Clear any existing confetti
+            container.innerHTML = '';
+            
+            // Create random confetti pieces
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.top = '0';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = Math.random() * 8 + 5 + 'px';
+                confetti.style.height = Math.random() * 8 + 5 + 'px';
+                confetti.style.opacity = '0';
+                confetti.style.animationDelay = Math.random() * 1.5 + 's';
+                container.appendChild(confetti);
+            }
+        }
+        
+        // Add ripple effect to option clicks
+        function createRipple(e) {
+            const button = e.currentTarget;
+            
+            // Remove any existing ripples
+            const ripples = button.getElementsByClassName('option-ripple');
+            for (let i = 0; i < ripples.length; i++) {
+                button.removeChild(ripples[i]);
+            }
+            
+            const circle = document.createElement('span');
+            const diameter = Math.max(button.clientWidth, button.clientHeight);
+            const radius = diameter / 2;
+            
+            // Get click position relative to the button
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - radius;
+            const y = e.clientY - rect.top - radius;
+            
+            circle.className = 'option-ripple';
+            circle.style.width = circle.style.height = `${diameter}px`;
+            circle.style.left = `${x}px`;
+            circle.style.top = `${y}px`;
+            
+            button.appendChild(circle);
+        }
+        
+        // Initialize step 1 button
+        document.getElementById('next-1').addEventListener('click', () => {
+            goToStep(2);
+        });
+        
+        // Initialize step 2 buttons
+        document.getElementById('prev-2').addEventListener('click', () => {
+            goToStep(1);
+        });
+        
+        document.getElementById('next-2').addEventListener('click', () => {
+            if (!onboardingData.goal) {
+                const button = document.getElementById('next-2');
+                button.classList.add('animate-shake');
+                setTimeout(() => {
+                    button.classList.remove('animate-shake');
+                }, 500);
+                alert('Please select a goal to continue.');
+                return;
+            }
+            goToStep(3);
+        });
+        
+        // Initialize step 3 buttons
+        document.getElementById('prev-3').addEventListener('click', () => {
+            goToStep(2);
+        });
+        
+        document.getElementById('next-3').addEventListener('click', () => {
+            if (!onboardingData.commitment) {
+                const button = document.getElementById('next-3');
+                button.classList.add('animate-shake');
+                setTimeout(() => {
+                    button.classList.remove('animate-shake');
+                }, 500);
+                alert('Please select your daily commitment to continue.');
+                return;
+            }
+            goToStep(4);
+        });
+        
+        // Initialize step 4 buttons
+        document.getElementById('prev-4').addEventListener('click', () => {
+            goToStep(3);
+        });
+        
+        document.getElementById('next-4').addEventListener('click', () => {
+            if (!onboardingData.difficulty) {
+                const button = document.getElementById('next-4');
+                button.classList.add('animate-shake');
+                setTimeout(() => {
+                    button.classList.remove('animate-shake');
+                }, 500);
+                alert('Please select a difficulty level to continue.');
+                return;
+            }
+            
+            // Update summary in step 5
+            updateSummary();
+            goToStep(5);
+        });
+        
+        // Goal selection
+        document.querySelectorAll('.goal-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                createRipple(e);
+                document.querySelectorAll('.goal-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                onboardingData.goal = this.getAttribute('data-goal');
+            });
+        });
+        
+        // Commitment selection
+        document.querySelectorAll('.commitment-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                createRipple(e);
+                document.querySelectorAll('.commitment-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                onboardingData.commitment = this.getAttribute('data-commitment');
+            });
+        });
+        
+        // Difficulty selection
+        document.querySelectorAll('.difficulty-option').forEach(option => {
+            option.addEventListener('click', function(e) {
+                createRipple(e);
+                document.querySelectorAll('.difficulty-option').forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+                onboardingData.difficulty = this.getAttribute('data-difficulty');
+            });
+        });
+        
+        // Update summary
+        function updateSummary() {
+            const goalMap = {
+                'interviews': 'Crack Coding Interviews',
+                'learn': 'Master Data Structures & Algorithms',
+                'practice': 'Regular Coding Practice'
+            };
+            
+            const commitmentMap = {
+                '1': '1 Problem / Day',
+                '3': '3-5 Problems / Day',
+                '5': '5+ Problems / Day'
+            };
+            
+            const difficultyMap = {
+                'easy': 'Easy',
+                'medium': 'Medium',
+                'hard': 'Hard',
+                'mixed': 'Mixed'
+            };
+            
+            document.getElementById('summary-goal').textContent = goalMap[onboardingData.goal] || '';
+            document.getElementById('summary-commitment').textContent = commitmentMap[onboardingData.commitment] || '';
+            document.getElementById('summary-difficulty').textContent = difficultyMap[onboardingData.difficulty] || '';
+        }
+        
+        // Complete onboarding
+        document.getElementById('complete-onboarding').addEventListener('click', async () => {
+            // Add loading animation to button
+            const button = document.getElementById('complete-onboarding');
+            button.textContent = 'Saving...';
+            button.disabled = true;
+            
+            try {
+                // Get current user
+                const user = await checkAuth();
+                if (!user) return;
+                
+                // Ensure all required fields are filled
+                if (!onboardingData.goal || !onboardingData.commitment || !onboardingData.difficulty) {
+                    throw new Error('Please complete all onboarding steps first');
+                }
+                
+                // Save onboarding data to Supabase and mark as completed
+                const { data: preferences, error } = await supabase
+                    .from('user_preferences')
+                    .upsert({
+                        user_id: user.id,
+                        goal: onboardingData.goal,
+                        commitment: onboardingData.commitment,
+                        difficulty: onboardingData.difficulty,
+                        onboarding_completed: true,
+                        updated_at: new Date()
+                    });
+                
+                if (error) {
+                    throw error;
+                }
+                
+                // Also update user profile if not already set
+                const { data: profile, error: profileError } = await supabase
+                    .from('profiles')
+                    .upsert({
+                        id: user.id,
+                        first_name: user.user_metadata?.firstName || user.email?.split('@')[0] || 'User',
+                        email: user.email,
+                        created_at: new Date()
+                    });
+                
+                if (profileError) {
+                    console.error('Error updating profile:', profileError);
+                }
+                
+                // Also create initial activity record to start streak
+                const { data: activity, error: activityError } = await supabase
+                    .from('user_activity')
+                    .upsert({
+                        user_id: user.id,
+                        activity_date: new Date().toISOString().split('T')[0],
+                        problems_solved: 0,
+                        streak_day: 1,
+                        created_at: new Date()
+                    });
+                
+                if (activityError) {
+                    console.error('Error creating activity record:', activityError);
+                }
+                
+                // Change button text
+                button.textContent = 'Success!';
+                
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 800);
+            } catch (error) {
+                console.error('Error saving onboarding data:', error);
+                button.textContent = 'Error';
+                button.classList.add('bg-red-500');
+                
+                // Show error and retry option
+                setTimeout(() => {
+                    button.textContent = 'Try Again';
+                    button.disabled = false;
+                    button.classList.remove('bg-red-500');
+                    alert('Failed to save your preferences. Please try again.');
+                }, 1500);
+            }
+        });
+        
+        // Initialize onboarding on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadUserPreferences();
+        });
+    </script>
+</body>
+</html> 

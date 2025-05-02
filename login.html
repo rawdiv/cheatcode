@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CheatCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="problem.html" class="hover:text-yellow-300 transition-colors">Problems</a></li>
+                    <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                    <li><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <ul class="flex flex-col space-y-4 p-4">
+                <li><a href="problem.html" class="block hover:text-yellow-300 transition-colors">Problems</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                <li><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-12">
+        <div class="max-w-md mx-auto bg-gray-900 rounded-lg p-8 shadow-lg">
+            <h1 class="text-3xl font-bold text-center mb-8">Login to CheatCode</h1>
+            
+            <form id="login-form" class="space-y-6">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium">Email</label>
+                    <input type="email" id="email" class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50" required>
+                </div>
+                
+                <div>
+                    <label for="password" class="block mb-2 text-sm font-medium">Password</label>
+                    <input type="password" id="password" class="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:border-yellow-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-opacity-50" required>
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember-me" type="checkbox" class="h-4 w-4 text-yellow-300 focus:ring-yellow-300 border-gray-600 rounded">
+                        <label for="remember-me" class="ml-2 block text-sm">Remember me</label>
+                    </div>
+                    
+                    <div class="text-sm">
+                        <a href="#" class="text-yellow-300 hover:underline">Forgot password?</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <button type="submit" class="w-full btn-primary py-2">Sign in</button>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <span class="text-gray-400">Don't have an account?</span>
+                    <a href="register.html" class="text-yellow-300 hover:underline ml-1">Sign up</a>
+                </div>
+            </form>
+            
+            <div class="mt-8">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-gray-900 text-gray-400">Or continue with</span>
+                    </div>
+                </div>
+                
+                <div class="mt-6 grid grid-cols-2 gap-3">
+                    <div>
+                        <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium hover:bg-gray-800">
+                            <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
+                            </svg>
+                            <span>Google</span>
+                        </a>
+                    </div>
+                    
+                    <div>
+                        <a href="#" class="w-full flex items-center justify-center px-4 py-2 border border-gray-700 rounded-md shadow-sm text-sm font-medium hover:bg-gray-800">
+                            <svg class="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z" />
+                            </svg>
+                            <span>GitHub</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 py-12 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="module">
+        // Import Supabase client and functions
+        import { supabase } from './supabase.js';
+        
+        // Form submission handling
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Disable submit button and show loading state
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.disabled = true;
+            submitButton.textContent = 'Signing in...';
+            
+            try {
+                // Login with API
+                const loginResponse = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
+                });
+                
+                const loginData = await loginResponse.json();
+                
+                if (!loginResponse.ok || !loginData.success) {
+                    throw new Error(loginData.error || 'Login failed');
+                }
+                
+                const user = loginData.user;
+                
+                // Get user preferences to check if onboarding was completed
+                const preferencesResponse = await fetch(`/api/preferences/${user.id}`);
+                const preferencesData = await preferencesResponse.json();
+                const preferences = preferencesData.success ? preferencesData.preferences : null;
+                
+                // Check if profile exists, create if needed
+                const profileResponse = await fetch(`/api/profiles/${user.id}`);
+                
+                if (!profileResponse.ok) {
+                    // Profile doesn't exist, create it
+                    const createProfileResponse = await fetch('/api/profiles/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: user.id,
+                            firstName: user.user_metadata?.firstName || email.split('@')[0],
+                            lastName: user.user_metadata?.lastName || '',
+                            email: email
+                        })
+                    });
+                    
+                    if (!createProfileResponse.ok) {
+                        console.warn('Could not create profile');
+                    }
+                }
+                
+                // Route based on onboarding status
+                if (preferences && preferences.onboarding_completed) {
+                    // If onboarding is complete, go to dashboard
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // If onboarding is incomplete, go to onboarding
+                    window.location.href = 'onboarding.html';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                
+                // Show error message
+                alert('Login failed: ' + (error.message || 'Please check your credentials'));
+                
+                // Reset button
+                submitButton.disabled = false;
+                submitButton.textContent = originalButtonText;
+            }
+        });
+        
+        // Check if already authenticated on page load
+        async function checkSession() {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                
+                if (user) {
+                    // Get user preferences to check if onboarding was completed
+                    const preferencesResponse = await fetch(`/api/preferences/${user.id}`);
+                    const preferencesData = await preferencesResponse.json();
+                    const preferences = preferencesData.success ? preferencesData.preferences : null;
+                    
+                    // Route based on onboarding status
+                    if (preferences && preferences.onboarding_completed) {
+                        // If onboarding is complete, go to dashboard
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        // If onboarding is incomplete, go to onboarding
+                        window.location.href = 'onboarding.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Session check error:', error);
+            }
+        }
+        
+        // Check session on page load
+        document.addEventListener('DOMContentLoaded', checkSession);
+    </script>
+</body>
+</html> 

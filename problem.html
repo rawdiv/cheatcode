@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Sum - CheatCode</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .editor-container {
+            height: 400px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .code-editor {
+            width: 100%;
+            height: 100%;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Fira Code', monospace;
+            resize: none;
+            padding: 1rem;
+            border: none;
+            outline: none;
+        }
+        
+        .locked-content {
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .tab-active {
+            border-bottom: 2px solid #FFD43B;
+            color: #FFD43B;
+        }
+
+        .cheats-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        
+        .cheats-panel.expanded {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <header class="py-4 border-b border-gray-800">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-bold text-yellow-300">CheatCode</a>
+            <nav class="hidden md:block">
+                <ul class="flex space-x-6">
+                    <li><a href="problem.html" class="text-yellow-300 transition-colors">Problems</a></li>
+                    <li><a href="#" class="hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                    <li><a href="dashboard.html" class="hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                    <li><a href="login.html" class="btn-outline py-2">Login</a></li>
+                </ul>
+            </nav>
+            <button class="md:hidden" id="mobile-menu-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu hidden">
+            <ul class="flex flex-col space-y-4 p-4">
+                <li><a href="problem.html" class="block text-yellow-300 transition-colors">Problems</a></li>
+                <li><a href="#" class="block hover:text-yellow-300 transition-colors">Cheatsheet</a></li>
+                <li><a href="dashboard.html" class="block hover:text-yellow-300 transition-colors">Dashboard</a></li>
+                <li><a href="login.html" class="btn-outline inline-block">Login</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Problem Header -->
+        <div class="mb-6 flex items-center justify-between">
+            <div class="flex items-center">
+                <a href="dashboard.html" class="text-gray-300 hover:text-yellow-300 mr-4 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Challenges</span>
+                </a>
+                <h1 class="text-2xl font-bold">Two Sum</h1>
+            </div>
+            <div class="flex items-center">
+                <span class="px-3 py-1 bg-green-900 text-green-300 rounded-full text-sm mr-2">Easy</span>
+                <span class="px-3 py-1 bg-yellow-900 text-yellow-300 rounded-full text-sm flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd" />
+                    </svg>
+                    CheatCode
+                </span>
+            </div>
+        </div>
+
+        <!-- AI Problem Generator Button -->
+        <div class="mb-6 bg-gray-900 rounded-lg p-4 flex justify-between items-center">
+            <div class="flex-1">
+                <h2 class="text-lg font-bold mb-1">Problem Navigator</h2>
+                <p class="text-gray-400 text-sm">Choose difficulty level and get a random coding challenge</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <select id="problem-difficulty" class="bg-gray-800 text-gray-300 rounded px-2 py-1 border border-gray-700">
+                    <option value="all">All Levels</option>
+                    <option value="easy">Easy</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button id="next-problem-btn" class="bg-yellow-600 hover:bg-yellow-500 text-white py-2 px-4 rounded-md">
+                    Next Problem
+                </button>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="mb-6 flex flex-wrap gap-2">
+            <span class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm">Arrays</span>
+            <span class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm">HashMap</span>
+            <span class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm">Two-Pointer</span>
+            <span class="px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm">Sliding Window</span>
+        </div>
+
+        <!-- Problem Description -->
+        <div class="bg-gray-900 rounded-lg p-6 shadow-lg mb-6">
+            <div class="prose prose-invert max-w-none">
+                <!-- Description will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Examples and Test Cases -->
+        <div class="mb-6">
+            <div class="flex border-b border-gray-800 mb-4">
+                <button class="tab-button active px-4 py-2 text-yellow-300 border-b-2 border-yellow-300" data-tab="examples">
+                    Examples
+                </button>
+                <button class="tab-button px-4 py-2 text-gray-400 hover:text-yellow-300" data-tab="test-cases">
+                    Test Cases
+                </button>
+            </div>
+            
+            <div id="examples-tab" class="tab-content active">
+                <!-- Examples will be loaded here -->
+            </div>
+            
+            <div id="test-cases-tab" class="tab-content hidden">
+                <!-- Test cases will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Code Editor -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-bold">Solution</h2>
+                <div class="flex items-center gap-2">
+                    <select id="language-select" class="bg-gray-800 text-gray-300 rounded px-2 py-1 border border-gray-700">
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                    </select>
+                </div>
+            </div>
+            <div class="editor-container h-64">
+                <textarea id="code-editor" class="code-editor"></textarea>
+            </div>
+        </div>
+
+        <!-- Results Panel -->
+        <div id="result-container" class="bg-gray-900 rounded-lg p-4 mb-6">
+            <div class="text-gray-400">Click "Run Code" to see results.</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-end gap-4">
+            <button id="run-btn" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-6 rounded-md">
+                Run Code
+            </button>
+            <button id="submit-btn" class="bg-yellow-600 hover:bg-yellow-500 text-white py-2 px-6 rounded-md">
+                Submit Solution
+            </button>
+        </div>
+
+        <!-- Tabs Section -->
+        <div class="mt-8 bg-gray-900 rounded-lg shadow-lg overflow-hidden">
+            <!-- Tabs Navigation -->
+            <div class="flex border-b border-gray-800">
+                <button class="px-6 py-4 tab-active" data-tab="submissions">My Submissions</button>
+                <button class="px-6 py-4 text-gray-400 hover:text-white" data-tab="editorial">Editorial</button>
+                <button class="px-6 py-4 text-gray-400 hover:text-white" data-tab="discussion">Discussion</button>
+            </div>
+            
+            <!-- Tab Content -->
+            <div class="p-6">
+                <!-- Submissions Tab (Default Active) -->
+                <div class="tab-content" id="submissions-tab">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-gray-900">
+                            <thead>
+                                <tr>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Language</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Runtime</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Memory</th>
+                                    <th class="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-800">
+                                <tr>
+                                    <td class="px-4 py-3 whitespace-nowrap">
+                                        <span class="text-green-400">Accepted</span>
+                                    </td>
+                                    <td class="px-4 py-3 whitespace-nowrap">Python</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">43 ms</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">14.2 MB</td>
+                                    <td class="px-4 py-3 whitespace-nowrap">2023-07-15</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Editorial Tab (Hidden by Default) -->
+                <div class="tab-content hidden" id="editorial-tab">
+                    <h3 class="text-xl font-bold mb-4">Editorial Solution</h3>
+                    <div class="space-y-4">
+                        <p class="text-gray-300">
+                            The "Two Sum" problem asks us to find indices of two numbers in an array that add up to a target value.
+                        </p>
+                        
+                        <h4 class="text-lg font-semibold">Approach 1: Brute Force</h4>
+                        <p class="text-gray-300">
+                            Check every pair of elements to see if they sum to the target.
+                        </p>
+                        <pre class="bg-gray-800 p-3 rounded-md overflow-x-auto mb-4">
+# Time: O(n²)
+# Space: O(1)
+
+def twoSum(nums, target):
+    n = len(nums)
+    for i in range(n):
+        for j in range(i+1, n):
+            if nums[i] + nums[j] == target:
+                return [i, j]</pre>
+                        
+                        <h4 class="text-lg font-semibold">Approach 2: Hash Map (Optimal)</h4>
+                        <p class="text-gray-300">
+                            Use a hash map to check for complements as we iterate through the array.
+                        </p>
+                        <pre class="bg-gray-800 p-3 rounded-md overflow-x-auto">
+# Time: O(n)
+# Space: O(n)
+
+def twoSum(nums, target):
+    seen = {}
+    for i, num in enumerate(nums):
+        complement = target - num
+        if complement in seen:
+            return [seen[complement], i]
+        seen[num] = i</pre>
+                    </div>
+                </div>
+                
+                <!-- Discussion Tab (Hidden by Default) -->
+                <div class="tab-content hidden" id="discussion-tab">
+                    <div class="space-y-6">
+                        <div class="p-4 border border-gray-800 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <div class="w-10 h-10 rounded-full bg-blue-700 flex items-center justify-center mr-3 text-white font-bold">JD</div>
+                                <div>
+                                    <div class="font-semibold">JohnDoe</div>
+                                    <div class="text-gray-400 text-sm">2 weeks ago</div>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">
+                                I found it helpful to understand this problem as finding the complement. In other words, for each number, we're looking for (target - number).
+                            </p>
+                        </div>
+                        
+                        <div class="p-4 border border-gray-800 rounded-lg">
+                            <div class="flex items-center mb-2">
+                                <div class="w-10 h-10 rounded-full bg-green-700 flex items-center justify-center mr-3 text-white font-bold">AS</div>
+                                <div>
+                                    <div class="font-semibold">AliceSmith</div>
+                                    <div class="text-gray-400 text-sm">1 week ago</div>
+                                </div>
+                            </div>
+                            <p class="text-gray-300">
+                                Make sure to use a dictionary (or hashmap) for O(1) lookups! Using a list to check for complements would still be O(n²).
+                            </p>
+                        </div>
+                        
+                        <!-- Comment Form -->
+                        <div class="mt-6">
+                            <h4 class="text-lg font-semibold mb-2">Add a Comment</h4>
+                            <textarea class="w-full bg-gray-800 text-gray-300 border border-gray-700 rounded-md p-3" rows="3" placeholder="Share your thoughts..."></textarea>
+                            <button class="mt-2 bg-yellow-600 hover:bg-yellow-500 text-white py-2 px-4 rounded-md">Post Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Navigation Footer -->
+        <div class="mt-8 bg-gray-900 rounded-lg shadow-lg p-4 flex justify-between">
+            <a href="#" class="text-gray-300 hover:text-yellow-300 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                Previous: Valid Parentheses
+            </a>
+            <a href="#" class="text-gray-300 hover:text-yellow-300 flex items-center">
+                Next: Merge Two Sorted Lists
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </a>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 py-12 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500">
+                &copy; 2023 CheatCode. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script type="module">
+        // Initialize problem page
+        async function initProblemPage() {
+            try {
+                // Get current user from localStorage
+                const userId = localStorage.getItem('userId');
+                const userName = localStorage.getItem('userName');
+                
+                // Update UI based on authentication status
+                if (userId && userName) {
+                    const loginButton = document.querySelector('a[href="login.html"]');
+                    const navList = document.querySelector('nav ul');
+                    
+                    if (loginButton && navList) {
+                        // Replace login button with user profile button
+                        const userInitial = userName.charAt(0) || 'U';
+                        const userDisplay = document.createElement('li');
+                        userDisplay.innerHTML = `
+                            <button class="btn-outline py-1 px-4 flex items-center">
+                                <div class="w-6 h-6 rounded-full bg-yellow-300 text-gray-900 flex items-center justify-center mr-2 font-medium text-sm">${userInitial.toUpperCase()}</div>
+                                <span>${userName}</span>
+                            </button>
+                        `;
+                        
+                        // Set up sign out functionality
+                        userDisplay.querySelector('button').addEventListener('click', () => {
+                            if (confirm('Are you sure you want to sign out?')) {
+                                localStorage.removeItem('userId');
+                                localStorage.removeItem('userName');
+                                window.location.reload();
+                            }
+                        });
+                        
+                        // Replace login button with user display
+                        navList.replaceChild(userDisplay, loginButton.parentElement);
+                    }
+                }
+                
+                // Load random problem
+                await loadRandomProblem();
+                
+                // Initialize buttons
+                const runButton = document.getElementById('run-btn');
+                const submitButton = document.getElementById('submit-btn');
+                const nextProblemButton = document.getElementById('next-problem-btn');
+                
+                if (runButton) {
+                    runButton.addEventListener('click', () => submitSolution('run'));
+                }
+                
+                if (submitButton) {
+                    submitButton.addEventListener('click', () => submitSolution('submit'));
+                }
+                
+                if (nextProblemButton) {
+                    nextProblemButton.addEventListener('click', () => loadRandomProblem());
+                }
+                
+                // Initialize the tabs
+                const tabButtons = document.querySelectorAll('[data-tab]');
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Update active tab button
+                        tabButtons.forEach(btn => btn.classList.remove('tab-active'));
+                        button.classList.add('tab-active');
+                        
+                        // Show corresponding tab content
+                        const targetTab = button.getAttribute('data-tab');
+                        document.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.add('hidden');
+                        });
+                        
+                        const activeContent = document.getElementById(`${targetTab}-tab`);
+                        if (activeContent) {
+                            activeContent.classList.remove('hidden');
+                        }
+                    });
+                });
+                
+                // Initialize CheatCode panel toggle if it exists
+                const toggleButton = document.getElementById('toggle-cheats');
+                const cheatsPanel = document.getElementById('cheats-panel');
+                const cheatsArrow = document.getElementById('cheats-arrow');
+                
+                if (toggleButton && cheatsPanel) {
+                    toggleButton.addEventListener('click', () => {
+                        cheatsPanel.classList.toggle('expanded');
+                        
+                        // Rotate arrow icon
+                        if (cheatsArrow) {
+                            cheatsArrow.style.transform = cheatsPanel.classList.contains('expanded') 
+                                ? 'rotate(180deg)' 
+                                : 'rotate(0)';
+                        }
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error initializing problem page:', error);
+            }
+        }
+        
+        // Function to load a random problem
+        async function loadRandomProblem() {
+            const difficulty = document.getElementById('problem-difficulty').value;
+            const userId = localStorage.getItem('userId');
+            
+            // Show loading state
+            document.querySelector('h1').textContent = 'Loading...';
+            
+            try {
+                const response = await fetch(`/api/get-problem?difficulty=${difficulty}${userId ? `&userId=${userId}` : ''}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch problem');
+                }
+                
+                const problem = await response.json();
+                
+                // Update page title and problem title
+                document.title = `${problem.title} - CheatCode`;
+                document.querySelector('h1').textContent = problem.title;
+                
+                // Update difficulty badge
+                const difficultyBadge = document.querySelector('.bg-green-900, .bg-yellow-900, .bg-red-900');
+                if (difficultyBadge) {
+                    difficultyBadge.className = `px-3 py-1 rounded-full text-sm mr-2 ${
+                        problem.difficulty === 'easy' ? 'bg-green-900 text-green-300' : 
+                        problem.difficulty === 'medium' ? 'bg-yellow-900 text-yellow-300' : 
+                        'bg-red-900 text-red-300'
+                    }`;
+                    difficultyBadge.textContent = problem.difficulty.charAt(0).toUpperCase() + problem.difficulty.slice(1);
+                }
+                
+                // Update description with proper formatting
+                const descriptionContainer = document.querySelector('.prose');
+                if (descriptionContainer) {
+                    // Convert markdown-style formatting to HTML
+                    let formattedDescription = problem.description
+                        .replace(/```([\s\S]*?)```/g, '<pre class="bg-gray-800 p-4 rounded-lg my-4"><code>$1</code></pre>')
+                        .replace(/`([^`]+)`/g, '<code class="bg-gray-800 px-1 rounded">$1</code>')
+                        .replace(/\n/g, '<br>');
+                    descriptionContainer.innerHTML = formattedDescription;
+                }
+                
+                // Update code editor with template
+                const codeEditor = document.getElementById('code-editor');
+                if (codeEditor) {
+                    codeEditor.value = problem.code_template || '// Write your solution here';
+                }
+                
+                // Store current problem ID
+                localStorage.setItem('currentProblemId', problem.id);
+                
+                // Update topic tags
+                const tagsContainer = document.querySelector('.mb-6.flex.flex-wrap.gap-2');
+                if (tagsContainer && problem.topics) {
+                    tagsContainer.innerHTML = '';
+                    const topicsArray = Array.isArray(problem.topics) ? problem.topics : problem.topics.split(',');
+                    topicsArray.forEach(topic => {
+                        const tag = document.createElement('span');
+                        tag.className = 'px-3 py-1 bg-gray-800 text-gray-300 rounded-full text-sm';
+                        tag.textContent = topic.trim();
+                        tagsContainer.appendChild(tag);
+                    });
+                }
+                
+                // Update examples
+                const examplesContainer = document.getElementById('examples-tab');
+                if (examplesContainer && problem.examples) {
+                    examplesContainer.innerHTML = '';
+                    problem.examples.forEach((example, index) => {
+                        const exampleDiv = document.createElement('div');
+                        exampleDiv.className = 'mb-4';
+                        exampleDiv.innerHTML = `
+                            <h4 class="text-yellow-300 mb-2">Example ${index + 1}:</h4>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <p class="text-gray-300 mb-2"><strong>Input:</strong> ${example.input}</p>
+                                <p class="text-gray-300 mb-2"><strong>Output:</strong> ${example.output}</p>
+                                ${example.explanation ? `<p class="text-gray-400"><strong>Explanation:</strong> ${example.explanation}</p>` : ''}
+                            </div>
+                        `;
+                        examplesContainer.appendChild(exampleDiv);
+                    });
+                }
+                
+                // Update test cases
+                const testCasesContainer = document.getElementById('test-cases-tab');
+                if (testCasesContainer && problem.testCases) {
+                    testCasesContainer.innerHTML = '';
+                    problem.testCases.forEach((testCase, index) => {
+                        const testCaseDiv = document.createElement('div');
+                        testCaseDiv.className = 'mb-4';
+                        testCaseDiv.innerHTML = `
+                            <h4 class="text-yellow-300 mb-2">Test Case ${index + 1}:</h4>
+                            <div class="bg-gray-800 p-4 rounded-lg">
+                                <p class="text-gray-300 mb-2"><strong>Input:</strong> ${JSON.stringify(testCase.input)}</p>
+                                <p class="text-gray-300"><strong>Expected Output:</strong> ${JSON.stringify(testCase.output)}</p>
+                            </div>
+                        `;
+                        testCasesContainer.appendChild(testCaseDiv);
+                    });
+                }
+                
+                // Clear results
+                const resultContainer = document.getElementById('result-container');
+                if (resultContainer) {
+                    resultContainer.innerHTML = '<div class="text-gray-400">Click "Run Code" to see results.</div>';
+                }
+                
+            } catch (error) {
+                console.error('Error loading problem:', error);
+                document.querySelector('h1').textContent = 'Error Loading Problem';
+                const descriptionContainer = document.querySelector('.prose');
+                if (descriptionContainer) {
+                    descriptionContainer.innerHTML = '<p class="text-red-400">Failed to load problem. Please try again.</p>';
+                }
+            }
+        }
+        
+        // Function to submit solution
+        async function submitSolution(type = 'run') {
+            const codeEditor = document.getElementById('code-editor');
+            if (!codeEditor) return;
+            
+            const code = codeEditor.value;
+            const problemId = localStorage.getItem('currentProblemId');
+            const userId = localStorage.getItem('userId');
+            
+            if (!problemId) {
+                alert('No problem is currently loaded');
+                return;
+            }
+            
+            // Get selected language
+            const languageSelector = document.querySelector('[data-lang].tab-active');
+            const language = languageSelector ? languageSelector.getAttribute('data-lang') : 'javascript';
+            
+            // Show loading state in results
+            const resultContainer = document.getElementById('result-container');
+            if (resultContainer) {
+                resultContainer.innerHTML = `
+                    <div class="p-4 text-gray-300">
+                        <p class="mb-2">Verifying solution...</p>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="bg-yellow-600 h-2.5 rounded-full animate-pulse" style="width: 100%"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            try {
+                // Submit solution to server for verification
+                const response = await fetch('/api/verify-solution', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        problemId,
+                        code,
+                        language
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!resultContainer) return;
+                
+                // Display results
+                let resultsHTML = `
+                    <div class="p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-semibold ${result.status === 'Accepted' ? 'text-green-400' : 'text-red-400'}">
+                                ${result.status}
+                            </h3>
+                            <div class="flex text-sm text-gray-400">
+                                <span class="mr-3">Runtime: ${result.time}</span>
+                                <span>Memory: ${result.memory}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                `;
+                
+                // Add test results
+                if (result.testResults && result.testResults.length > 0) {
+                    result.testResults.forEach((test, index) => {
+                        resultsHTML += `
+                            <div class="bg-gray-800 p-3 rounded-md">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-300">Test Case ${index + 1}</span>
+                                    <span class="${test.passed ? 'text-green-400' : 'text-red-400'}">
+                                        ${test.passed ? 'Passed' : 'Failed'}
+                                    </span>
+                                </div>
+                                ${test.explanation ? `<p class="text-sm text-gray-400 mt-1">${test.explanation}</p>` : ''}
+                            </div>
+                        `;
+                    });
+                }
+                
+                // Add feedback
+                if (result.feedback) {
+                    resultsHTML += `
+                        <div class="bg-gray-800 p-3 rounded-md">
+                            <span class="text-gray-300">Feedback:</span>
+                            <p class="text-sm text-gray-400 mt-1">${result.feedback}</p>
+                        </div>
+                    `;
+                }
+                
+                resultsHTML += `
+                        </div>
+                    </div>
+                `;
+                
+                resultContainer.innerHTML = resultsHTML;
+                
+                // If correct solution and user is logged in, save progress
+                if (result.status === 'Accepted' && userId && type === 'submit') {
+                    await fetch('/api/progress', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId,
+                            problemId,
+                            status: 'completed',
+                            solution: code,
+                            language,
+                            timeSpent: 0 // Would track time spent in a real app
+                        })
+                    });
+                }
+            } catch (error) {
+                console.error('Error verifying solution:', error);
+                if (resultContainer) {
+                    resultContainer.innerHTML = `
+                        <div class="p-4 text-red-400">
+                            Failed to verify solution. Please try again.
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // Add tab switching functionality
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active', 'text-yellow-300', 'border-b-2', 'border-yellow-300'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.add('hidden'));
+                
+                // Add active class to clicked button and corresponding content
+                button.classList.add('active', 'text-yellow-300', 'border-b-2', 'border-yellow-300');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+            });
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', initProblemPage);
+    </script>
+</body>
+</html> 

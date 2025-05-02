@@ -1,0 +1,36 @@
+{
+  "name": "cheatcode",
+  "version": "1.0.0",
+  "description": "CheatCode - A coding challenge platform with unique learning patterns",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "client": "live-server --port=8000",
+    "build": "mkdir -p dist && cp -R *.html *.css *.js dist/",
+    "deploy": "node deploy.js",
+    "prod": "NODE_ENV=production node deploy.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.2.1",
+    "@supabase/supabase-js": "^2.49.4",
+    "body-parser": "^1.20.3",
+    "cheatcode": "file:",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "openai": "^4.96.2"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2",
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

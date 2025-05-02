@@ -1,0 +1,8 @@
+-- Add missing columns to problems table
+ALTER TABLE problems 
+ADD COLUMN IF NOT EXISTS examples JSONB,
+ADD COLUMN IF NOT EXISTS testCases JSONB,
+ADD COLUMN IF NOT EXISTS solution JSONB,
+ADD COLUMN IF NOT EXISTS code_template TEXT,
+ADD COLUMN IF NOT EXISTS topics TEXT[],
+ADD COLUMN IF NOT EXISTS metadata JSONB; 

@@ -1,0 +1,315 @@
+/* Global Styles */
+body {
+    background-color: #111111;
+    color: white;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Animation Styles */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from { transform: translateX(-30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.animate-slideUp {
+    animation: slideUp 0.8s ease forwards;
+}
+
+.animate-slideDown {
+    animation: slideDown 0.8s ease forwards;
+}
+
+.animate-slideInRight {
+    animation: slideInRight 0.8s ease forwards;
+}
+
+.animate-slideInLeft {
+    animation: slideInLeft 0.8s ease forwards;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease infinite;
+}
+
+.animate-float {
+    animation: float 3s ease infinite;
+}
+
+.animate-shake {
+    animation: shake 0.5s ease;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: #FFD43B;
+    color: black;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary:hover {
+    background-color: #F8C100;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(255, 212, 59, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px);
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 0.5rem;
+    transform: scale(0);
+    transition: transform 0.3s;
+    transform-origin: center;
+}
+
+.btn-primary:hover::after {
+    transform: scale(2);
+    opacity: 0;
+}
+
+.btn-outline {
+    border: 1px solid #FFD43B;
+    color: #FFD43B;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 212, 59, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(255, 212, 59, 0.1);
+}
+
+.btn-outline:active {
+    transform: translateY(-1px);
+}
+
+/* Feature Cards */
+.feature-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 250px;
+    transition: all 0.4s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+}
+
+.icon {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1rem;
+    color: #FFD43B;
+    transition: all 0.4s ease;
+}
+
+.feature-card:hover .icon {
+    transform: scale(1.1);
+}
+
+/* Problem Cards */
+.problem-card {
+    background-color: #191919;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    transform-origin: center;
+}
+
+.problem-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Code Block Styling */
+.code-block {
+    background-color: #191919;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-family: 'Fira Code', monospace;
+    overflow-x: auto;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.code-block:hover {
+    box-shadow: 0 0 20px rgba(255, 212, 59, 0.15);
+}
+
+.line-number {
+    color: #666;
+    padding-right: 1rem;
+    user-select: none;
+}
+
+.py-keyword {
+    color: #FFD43B;
+}
+
+.py-function {
+    color: #4e94f3;
+}
+
+.py-string {
+    color: #98C379;
+}
+
+/* Section Styling */
+section {
+    margin: 6rem 0;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+}
+
+h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #FFD43B;
+    margin-bottom: 2rem;
+}
+
+/* Input animations */
+input, select, textarea {
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 212, 59, 0.15);
+}
+
+/* Dashboard cards animation */
+.dashboard-card {
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .feature-cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .feature-card {
+        margin-bottom: 2rem;
+    }
+} 
